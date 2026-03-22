@@ -1590,7 +1590,20 @@ console.log('🚀 Enhanced Projects Section - Ready!');
       if (submitBtn) submitBtn.disabled = true;
 
       try {
-        await emailjs.sendForm(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, form);
+        // Explicitly collect form values instead of relying on sendForm
+        // (sendForm can fail if field names don't match the EmailJS template)
+        const templateParams = {
+          from_name:    fields.name.el.value.trim(),
+          from_email:   fields.email.el.value.trim(),
+          subject:      fields.subject.el.value.trim(),
+          message:      fields.message.el.value.trim(),
+          // Also include common alternative field names just in case
+          name:         fields.name.el.value.trim(),
+          email:        fields.email.el.value.trim(),
+          reply_to:     fields.email.el.value.trim(),
+        };
+
+        await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, templateParams);
         showToast(true);
         form.reset();
 
@@ -1610,6 +1623,9 @@ console.log('🚀 Enhanced Projects Section - Ready!');
 
       } catch (err) {
         console.error('EmailJS error:', err);
+        // Log detailed error info to help debug
+        if (err && err.text) console.error('EmailJS details:', err.text);
+        if (err && err.status) console.error('EmailJS status:', err.status);
         showToast(false);
         setButtonState('default');
       } finally {
