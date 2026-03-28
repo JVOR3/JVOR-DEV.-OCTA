@@ -113,7 +113,10 @@
 
 
            <div class="btn-group">
-              <a href="#" class="btn">Hire</a>
+              <button class="btn btn-hire-modal" id="openHireModal">
+                <i class='bx bx-briefcase'></i> Hire Me
+                <span class="hire-avail-dot"></span>
+              </button>
               <a href="#contact" class="btn">Contact</a>
               <a href="project-folder\nOCTA_Resume_Final.pdf" download class="btn btn-download">
               Download CV <i class='bx bxs-file-pdf'></i>
@@ -2855,6 +2858,97 @@
   </div>
 
 </footer>
+
+
+<!-- ═══════════════════════════════════════════════════════
+     HIRE ME MODAL — JVOR DEV.
+═══════════════════════════════════════════════════════ -->
+<div id="hireMeModal" class="hm-overlay" role="dialog" aria-modal="true" aria-labelledby="hm-title">
+  <div class="hm-backdrop"></div>
+  <div class="hm-panel">
+
+    <div class="hm-orb hm-orb-1"></div>
+    <div class="hm-orb hm-orb-2"></div>
+
+    <button class="hm-close" id="closeHireModal" aria-label="Close"><i class="bx bx-x"></i></button>
+
+    <div class="hm-header">
+      <div class="hm-avatar-wrap">
+        <img src="imgae\pormalko.jpg" alt="Jay Octa" class="hm-avatar">
+        <span class="hm-avail-badge"><span class="hm-avail-pulse"></span>Available Now</span>
+      </div>
+      <div class="hm-header-info">
+        <span class="hm-eyebrow">Ready to work with you</span>
+        <h2 class="hm-name" id="hm-title">JVOR DEV.</h2>
+        <p class="hm-role">Full Stack Developer &amp; UI/UX Designer</p>
+        <div class="hm-tags">
+          <span class="hm-tag"><i class="bx bx-map-pin"></i> Capalonga, PH</span>
+          <span class="hm-tag"><i class="bx bx-time"></i> PHT (UTC+8)</span>
+          <span class="hm-tag"><i class="bx bx-globe"></i> Remote Friendly</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="hm-section">
+      <p class="hm-section-label"><i class="bx bx-layer"></i> What I Offer</p>
+      <div class="hm-services">
+        <div class="hm-service-card"><i class="bx bx-code-alt"></i><span>Web Development</span></div>
+        <div class="hm-service-card"><i class="bx bx-palette"></i><span>UI/UX Design</span></div>
+        <div class="hm-service-card"><i class="bx bx-mobile-alt"></i><span>Responsive Design</span></div>
+        <div class="hm-service-card"><i class="bx bx-video"></i><span>Video Editing</span></div>
+        <div class="hm-service-card"><i class="bx bx-store"></i><span>Landing Pages</span></div>
+        <div class="hm-service-card"><i class="bx bxl-figma"></i><span>Prototyping</span></div>
+      </div>
+    </div>
+
+    <div class="hm-stats-row">
+      <div class="hm-stat"><span class="hm-stat-n">5+</span><span class="hm-stat-l">Projects Done</span></div>
+      <div class="hm-stat-div"></div>
+      <div class="hm-stat"><span class="hm-stat-n">3+</span><span class="hm-stat-l">Happy Clients</span></div>
+      <div class="hm-stat-div"></div>
+      <div class="hm-stat"><span class="hm-stat-n">100%</span><span class="hm-stat-l">Satisfaction</span></div>
+      <div class="hm-stat-div"></div>
+      <div class="hm-stat"><span class="hm-stat-n">&lt;24h</span><span class="hm-stat-l">Response Time</span></div>
+    </div>
+
+    <div class="hm-section">
+      <p class="hm-section-label"><i class="bx bx-send"></i> Reach Me Via</p>
+      <div class="hm-contact-options">
+        <button class="hm-contact-btn hm-copy-email" data-email="jvrocta@gmail.com">
+          <div class="hm-cb-icon"><i class="bx bx-envelope"></i></div>
+          <div class="hm-cb-info"><span class="hm-cb-label">Email</span><span class="hm-cb-val">jvrocta@gmail.com</span></div>
+          <div class="hm-cb-action"><i class="bx bx-copy"></i><span>Copy</span></div>
+        </button>
+        <a class="hm-contact-btn" href="https://m.me/jay.a.octa.2025" target="_blank" rel="noopener">
+          <div class="hm-cb-icon hm-fb"><i class="bx bxl-messenger"></i></div>
+          <div class="hm-cb-info"><span class="hm-cb-label">Facebook Messenger</span><span class="hm-cb-val">jay.a.octa.2025</span></div>
+          <div class="hm-cb-action"><i class="bx bx-link-external"></i><span>Open</span></div>
+        </a>
+        <a class="hm-contact-btn" href="https://github.com/JVOR3" target="_blank" rel="noopener">
+          <div class="hm-cb-icon hm-gh"><i class="bx bxl-github"></i></div>
+          <div class="hm-cb-info"><span class="hm-cb-label">GitHub</span><span class="hm-cb-val">github.com/JVOR3</span></div>
+          <div class="hm-cb-action"><i class="bx bx-link-external"></i><span>View</span></div>
+        </a>
+      </div>
+    </div>
+
+    <div class="hm-footer">
+      <a href="#contact" class="hm-cta-btn" id="hm-go-contact">
+        <i class="bx bx-message-square-dots"></i>
+        Send Me a Project Brief
+      </a>
+      <div class="hm-footer-row">
+        <span class="hm-footer-or">or</span>
+        <a href="project-folder\nOCTA_Resume_Final.pdf" download class="hm-cta-ghost">
+          <i class="bx bxs-file-pdf"></i> Download My CV
+        </a>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div class="hm-toast" id="hmCopyToast"><i class="bx bx-check-circle"></i> Email copied to clipboard!</div>
 
 <script src="script.js" type="module"></script>
 </body>

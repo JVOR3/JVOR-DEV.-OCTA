@@ -3437,3 +3437,79 @@ console.log('🚀 Premium Footer v3 — fully loaded!');
 })();
 
 console.log('💳 Premium Digital ID Card v2 + Bento Grid — loaded!');
+// ════════════════════════════════════════════════════════════════
+//  HIRE ME MODAL — JVOR DEV.
+// ════════════════════════════════════════════════════════════════
+(function initHireModal() {
+  const modal      = document.getElementById('hireMeModal');
+  const openBtn    = document.getElementById('openHireModal');
+  const closeBtn   = document.getElementById('closeHireModal');
+  const backdrop   = modal?.querySelector('.hm-backdrop');
+  const goContact  = document.getElementById('hm-go-contact');
+  const toast      = document.getElementById('hmCopyToast');
+
+  if (!modal || !openBtn) return;
+
+  let toastTimer;
+
+  // ── Open ──────────────────────────────────────────────────────
+  function openModal() {
+    modal.classList.add('open');
+    document.body.style.overflow = 'hidden';
+    closeBtn?.focus();
+  }
+
+  // ── Close ─────────────────────────────────────────────────────
+  function closeModal() {
+    modal.classList.remove('open');
+    document.body.style.overflow = 'auto';
+    openBtn.focus();
+  }
+
+  openBtn.addEventListener('click', openModal);
+  closeBtn?.addEventListener('click', closeModal);
+  backdrop?.addEventListener('click', closeModal);
+
+  // Close on Escape key
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape' && modal.classList.contains('open')) closeModal();
+  });
+
+  // "Send Me a Project Brief" → close modal then scroll to contact
+  goContact?.addEventListener('click', () => {
+    closeModal();
+  });
+
+  // ── Copy Email ────────────────────────────────────────────────
+  modal.querySelectorAll('.hm-copy-email').forEach(btn => {
+    btn.addEventListener('click', async () => {
+      const email = btn.dataset.email;
+      try {
+        await navigator.clipboard.writeText(email);
+      } catch {
+        // Fallback
+        const ta = document.createElement('textarea');
+        ta.value = email;
+        ta.style.cssText = 'position:fixed;opacity:0';
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand('copy');
+        document.body.removeChild(ta);
+      }
+      // Update button state
+      const actionEl = btn.querySelector('.hm-cb-action');
+      if (actionEl) {
+        actionEl.innerHTML = '<i class="bx bx-check"></i><span>Copied!</span>';
+        actionEl.style.color = '#4ade80';
+        setTimeout(() => {
+          actionEl.innerHTML = '<i class="bx bx-copy"></i><span>Copy</span>';
+          actionEl.style.color = '';
+        }, 2200);
+      }
+      // Show toast
+      clearTimeout(toastTimer);
+      toast.classList.add('show');
+      toastTimer = setTimeout(() => toast.classList.remove('show'), 2500);
+    });
+  });
+})();
