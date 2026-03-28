@@ -6524,32 +6524,31 @@
 
 /* ==================== THEME TOGGLE (DAY/NIGHT MODE) ==================== */
 .theme-toggle {
-  
-  top: 14px;
-  left: 180px;
-  background: rgba(255, 115, 0, 0.747);
-  border-radius: 100%;
-  padding: 10px;
+  position: relative;
+  background: rgba(234, 88, 12, 0.15);
+  border: 1.5px solid rgba(234, 88, 12, 0.35);
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  padding: 0;
   cursor: pointer;
   z-index: 1200;
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-shrink: 0;
   transition: all 0.3s ease;
-  
 }
-
-
 
 .theme-toggle:hover {
   transform: scale(1.1);
-  box-shadow: 0 0 20px var(--main-color);
+  background: rgba(234, 88, 12, 0.28);
+  box-shadow: 0 0 18px rgba(234, 88, 12, 0.45);
 }
 
 #theme-icon {
-  font-size: 1.3rem;
-  color: black;
-  border-color: #000000;
+  font-size: 1.4rem;
+  color: var(--main-color);
 }
 
 /* ==================== LIGHT MODE ROOT VARIABLES ==================== */
@@ -12490,3 +12489,318 @@ img, video, canvas, iframe, embed, object {
   .hm-services { grid-template-columns: repeat(2, 1fr); gap: 0.7rem; }
   .hm-panel { padding: 2rem 1.4rem 1.8rem; }
 }
+
+
+
+/* ═══════════════════════════════════════════════════════════════════
+   HEADER MOBILE FIX — THEME TOGGLE + BUTTON LAYOUT
+═══════════════════════════════════════════════════════════════════ */
+
+/* Desktop header — proper right-side group */
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+}
+
+/* On mobile, group theme toggle + menu icon together */
+@media (max-width: 768px) {
+  .header {
+    padding: 1rem 5%;
+    gap: 0;
+  }
+
+  /* Hide Contact Me button on mobile */
+  .gradient-btn {
+    display: none !important;
+  }
+
+  /* Show menu icon */
+  #menu-icon {
+    display: flex !important;
+    font-size: 2.8rem;
+    cursor: pointer;
+    color: var(--main-color);
+    z-index: 1100;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  /* Theme toggle stays visible and properly sized */
+  .theme-toggle {
+    width: 36px;
+    height: 36px;
+    flex-shrink: 0;
+  }
+
+  #theme-icon {
+    font-size: 1.3rem;
+  }
+
+  /* Push theme toggle + menu icon to the right side together */
+  .header {
+    display: grid;
+    grid-template-columns: auto 1fr auto auto;
+    align-items: center;
+    column-gap: 1rem;
+  }
+
+  .logo {
+    grid-column: 1;
+  }
+
+  .navbar {
+    grid-column: 1 / -1; /* full width when open */
+  }
+
+  .theme-toggle {
+    grid-column: 3;
+  }
+
+  #menu-icon {
+    grid-column: 4;
+  }
+}
+
+@media (max-width: 480px) {
+  .header {
+    padding: 0.9rem 4%;
+    column-gap: 0.7rem;
+  }
+  .logo {
+    font-size: 1.9rem;
+  }
+  .theme-toggle {
+    width: 34px;
+    height: 34px;
+  }
+  #theme-icon {
+    font-size: 1.2rem;
+  }
+  #menu-icon {
+    font-size: 2.4rem;
+  }
+}
+
+@media (max-width: 360px) {
+  .logo { font-size: 1.7rem; }
+  .header { padding: 0.8rem 3.5%; }
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   PROFESSIONAL LIGHT MODE COLOR OVERHAUL
+═══════════════════════════════════════════════════════════════════ */
+
+/* Root variables for light mode */
+.light-mode {
+  --bg-color: #f8f9fb;
+  --second-bg-color: #eef1f6;
+  --text-color: #0f172a;
+  --main-color: #ea580c;
+}
+
+/* Body & base */
+.light-mode body,
+.light-mode {
+  background-color: var(--bg-color) !important;
+  color: var(--text-color) !important;
+}
+
+/* All sections */
+.light-mode section {
+  background-color: var(--bg-color);
+  color: var(--text-color);
+}
+
+/* Alternate section bg */
+.light-mode .about,
+.light-mode .services,
+.light-mode .testimonials,
+.light-mode footer {
+  background-color: var(--second-bg-color) !important;
+}
+
+/* Headings */
+.light-mode h1,
+.light-mode h2,
+.light-mode h3,
+.light-mode h4,
+.light-mode h5,
+.light-mode h6 {
+  color: #0f172a !important;
+}
+
+/* Paragraphs & spans */
+.light-mode p { color: #334155 !important; }
+.light-mode span { color: #475569 !important; }
+.light-mode label { color: #374151 !important; }
+
+/* Preserve gradient text */
+.light-mode .logo span,
+.light-mode .home-title span,
+.light-mode [style*="background-clip: text"],
+.light-mode .gradient-text {
+  background: linear-gradient(90deg, #ea580c, #ff1d15) !important;
+  -webkit-background-clip: text !important;
+  background-clip: text !important;
+  color: transparent !important;
+}
+
+/* Header */
+.light-mode .header {
+  background: rgba(248, 249, 251, 0.9) !important;
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(234, 88, 12, 0.12);
+  box-shadow: 0 2px 24px rgba(0,0,0,0.07);
+}
+
+/* Logo */
+.light-mode .logo { color: #0f172a !important; }
+
+/* Navbar links */
+.light-mode .navbar a {
+  color: #334155 !important;
+}
+.light-mode .navbar a:hover,
+.light-mode .navbar a.active-nav {
+  color: #ea580c !important;
+}
+
+/* Mobile navbar panel */
+@media (max-width: 768px) {
+  .light-mode .navbar {
+    background: rgba(248, 249, 251, 0.98) !important;
+    border-left: 1px solid rgba(234, 88, 12, 0.15);
+    box-shadow: -8px 0 40px rgba(0,0,0,0.08);
+  }
+}
+
+/* Theme toggle in light mode */
+.light-mode .theme-toggle {
+  background: rgba(234, 88, 12, 0.1);
+  border-color: rgba(234, 88, 12, 0.3);
+}
+.light-mode #theme-icon { color: var(--main-color); }
+
+/* Menu icon */
+.light-mode #menu-icon { color: var(--main-color) !important; }
+
+/* Cards */
+.light-mode .srv-card,
+.light-mode .project-card,
+.light-mode .testi-card,
+.light-mode .cert-card,
+.light-mode .ts-card,
+.light-mode .about-detail-card,
+.light-mode .aib-stat {
+  background: #ffffff !important;
+  border-color: rgba(15,23,42,0.08) !important;
+  color: #0f172a !important;
+  box-shadow: 0 2px 16px rgba(0,0,0,0.06) !important;
+}
+
+.light-mode .srv-card:hover,
+.light-mode .project-card:hover,
+.light-mode .testi-card:hover,
+.light-mode .ts-card:hover {
+  box-shadow: 0 8px 30px rgba(234,88,12,0.12) !important;
+  border-color: rgba(234,88,12,0.25) !important;
+}
+
+/* Buttons */
+.light-mode .btn {
+  background: #0f172a;
+  color: #fff;
+  border-color: #0f172a;
+}
+.light-mode .btn:hover {
+  background: var(--main-color);
+  border-color: var(--main-color);
+}
+
+/* Gradient button */
+.light-mode .gradient-btn {
+  background: linear-gradient(270deg, #ea580c, #FF1D15);
+  color: #fff;
+}
+
+/* Inputs */
+.light-mode input,
+.light-mode textarea,
+.light-mode select {
+  background: #ffffff !important;
+  border-color: rgba(15,23,42,0.15) !important;
+  color: #0f172a !important;
+}
+.light-mode input::placeholder,
+.light-mode textarea::placeholder {
+  color: #94a3b8 !important;
+}
+.light-mode input:focus,
+.light-mode textarea:focus {
+  border-color: var(--main-color) !important;
+  box-shadow: 0 0 0 3px rgba(234,88,12,0.1) !important;
+}
+
+/* Progress/skill bars bg */
+.light-mode .ts-bar-bg,
+.light-mode .skill-bar-bg {
+  background: rgba(15,23,42,0.08) !important;
+}
+
+/* Footer */
+.light-mode .footer {
+  background: #0f172a !important;
+  color: #e2e8f0 !important;
+}
+.light-mode .ft-brand-bio,
+.light-mode .ft-links a,
+.light-mode .ft-copyright,
+.light-mode .ft-made-with {
+  color: #94a3b8 !important;
+}
+.light-mode .ft-links a:hover { color: var(--main-color) !important; }
+
+/* Hire modal in light mode */
+.light-mode .hm-panel {
+  background: linear-gradient(145deg, #ffffff, #f8f9fb) !important;
+  border-color: rgba(234,88,12,0.2) !important;
+  box-shadow: 0 30px 80px rgba(0,0,0,0.15), 0 0 60px rgba(234,88,12,0.06) !important;
+}
+.light-mode .hm-name { color: #0f172a !important; }
+.light-mode .hm-role { color: #64748b !important; }
+.light-mode .hm-tag { color: #475569 !important; background: rgba(15,23,42,0.04) !important; border-color: rgba(15,23,42,0.1) !important; }
+.light-mode .hm-service-card {
+  background: #f1f5f9 !important;
+  border-color: rgba(15,23,42,0.1) !important;
+}
+.light-mode .hm-service-card span { color: #334155 !important; }
+.light-mode .hm-service-card:hover { background: rgba(234,88,12,0.06) !important; }
+.light-mode .hm-stats-row { background: rgba(234,88,12,0.04) !important; border-color: rgba(234,88,12,0.12) !important; }
+.light-mode .hm-stat-l { color: #64748b !important; }
+.light-mode .hm-contact-btn { background: #f8fafc !important; border-color: rgba(15,23,42,0.1) !important; }
+.light-mode .hm-contact-btn:hover { background: rgba(234,88,12,0.05) !important; }
+.light-mode .hm-cb-label { color: #0f172a !important; }
+.light-mode .hm-cb-val { color: #94a3b8 !important; }
+.light-mode .hm-close { background: rgba(15,23,42,0.06) !important; border-color: rgba(15,23,42,0.1) !important; color: #64748b !important; }
+.light-mode .hm-close:hover { background: rgba(234,88,12,0.1) !important; color: var(--main-color) !important; }
+.light-mode .hm-backdrop { background: rgba(15,23,42,0.55) !important; }
+.light-mode .hm-cta-ghost { background: #f1f5f9 !important; color: #475569 !important; border-color: rgba(15,23,42,0.12) !important; }
+.light-mode .hm-cta-ghost:hover { color: #0f172a !important; background: #e2e8f0 !important; }
+.light-mode .hm-section-label { color: rgba(234,88,12,0.85) !important; }
+.light-mode .hm-eyebrow { color: rgba(234,88,12,0.85) !important; }
+
+/* Scroll progress bar */
+.light-mode #scroll-progress-bar {
+  background: linear-gradient(90deg, #ea580c, #ff1d15);
+}
+
+/* Floating hire btn */
+.light-mode #floating-hire {
+  background: linear-gradient(135deg, #ea580c, #ff1d15);
+  color: #fff;
+  box-shadow: 0 6px 24px rgba(234,88,12,0.35);
+}
+
+
