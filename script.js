@@ -198,12 +198,12 @@ stars.forEach(star => {
     stars.forEach(s => s.classList.toggle("active", s.dataset.value <= val));
   };
   star.onmouseleave = () => {
-    const saved = ratingInput.value;
+    const saved = ratingInput?.value || '0';
     stars.forEach(s => s.classList.toggle("active", s.dataset.value <= saved));
   };
   star.onclick = () => {
     const val = star.dataset.value;
-    ratingInput.value = val;
+    if (ratingInput) ratingInput.value = val;
     if (ratingText) ratingText.textContent = ratingLabels[val] || "Click to rate";
     stars.forEach(s => s.classList.toggle("active", s.dataset.value <= val));
   };
@@ -660,7 +660,7 @@ const closePremium = () => {
     document.body.style.overflow = "auto";
 };
 
-pClose.onclick = closePremium;
+if (pClose) pClose.onclick = closePremium;
 window.onclick = (e) => { if(e.target.classList.contains('p-modal-overlay')) closePremium(); };
 
 // Re-init observer for the new cards
@@ -3512,4 +3512,153 @@ console.log('💳 Premium Digital ID Card v2 + Bento Grid — loaded!');
       toastTimer = setTimeout(() => toast.classList.remove('show'), 2500);
     });
   });
+})();
+
+/* ══════════════════════════════════════════════════════════════
+   GRAPHIC DESIGN & VIDEO EDIT SAMPLES — TABS + LIGHTBOX
+══════════════════════════════════════════════════════════════ */
+(function () {
+  // ── Tab Switcher ──────────────────────────────────────────
+  const tabBtns = document.querySelectorAll('.cs-tab-btn');
+  const tabContents = document.querySelectorAll('.cs-tab-content');
+
+  tabBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      tabBtns.forEach(b => b.classList.remove('cs-tab-active'));
+      tabContents.forEach(c => c.classList.remove('cs-tab-show'));
+
+      btn.classList.add('cs-tab-active');
+      const targetId = 'cs-tab-' + btn.dataset.tab;
+      const target = document.getElementById(targetId);
+      if (target) target.classList.add('cs-tab-show');
+    });
+  });
+
+  // ── Lightbox ─────────────────────────────────────────────
+  const lightbox    = document.getElementById('csLightbox');
+  const lbImg       = document.getElementById('csLightboxImg');
+  const lbOverlay   = lightbox ? lightbox.querySelector('.cs-lb-overlay') : null;
+  const lbClose     = lightbox ? lightbox.querySelector('.cs-lb-close')   : null;
+  const lbPrev      = lightbox ? lightbox.querySelector('.cs-lb-prev')    : null;
+  const lbNext      = lightbox ? lightbox.querySelector('.cs-lb-next')    : null;
+
+  // Collect only non-placeholder graphic cards
+  let csImages = [];
+  let csCurrentIdx = 0;
+
+  function buildImageList() {
+    csImages = [];
+    const activeTab = document.querySelector('.cs-tab-content.cs-tab-show');
+    if (!activeTab) return;
+    activeTab.querySelectorAll('.cs-card:not(.cs-card-add)').forEach(card => {
+      const img = card.querySelector('.cs-card-img');
+      if (img) csImages.push({ src: img.src, alt: img.alt });
+    });
+  }
+
+  function openLightbox(idx) {
+    if (!lightbox || csImages.length === 0) return;
+    csCurrentIdx = idx;
+    lbImg.src  = csImages[idx].src;
+    lbImg.alt  = csImages[idx].alt;
+    lightbox.classList.add('cs-lb-open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeLightbox() {
+    if (!lightbox) return;
+    lightbox.classList.remove('cs-lb-open');
+    document.body.style.overflow = '';
+    lbImg.src = '';
+  }
+
+  function navigate(dir) {
+    csCurrentIdx = (csCurrentIdx + dir + csImages.length) % csImages.length;
+    lbImg.src = csImages[csCurrentIdx].src;
+    lbImg.alt = csImages[csCurrentIdx].alt;
+  }
+
+  // Open on graphic card click (non-placeholder, non-video)
+  document.addEventListener('click', function (e) {
+    const card = e.target.closest('.cs-card:not(.cs-card-add):not(.cs-card-video)');
+    if (!card) return;
+    buildImageList();
+    const idx = parseInt(card.dataset.csIndex, 10) || 0;
+    openLightbox(Math.min(idx, csImages.length - 1));
+  });
+
+  if (lbClose)   lbClose.addEventListener('click', closeLightbox);
+  if (lbOverlay) lbOverlay.addEventListener('click', closeLightbox);
+  if (lbPrev)    lbPrev.addEventListener('click', () => navigate(-1));
+  if (lbNext)    lbNext.addEventListener('click', () => navigate(1));
+
+  document.addEventListener('keydown', function (e) {
+    if (!lightbox || !lightbox.classList.contains('cs-lb-open')) return;
+    if (e.key === 'Escape')     closeLightbox();
+    if (e.key === 'ArrowLeft')  navigate(-1);
+    if (e.key === 'ArrowRight') navigate(1);
+  });
+})();
+
+// ═══════════════════════════════════════════════════════
+//   ADVANCED MAP SECTION — Live Clock & Controls
+// ═══════════════════════════════════════════════════════
+(function advancedMap() {
+
+  // Live clock for HUD and map badge (PHT = UTC+8)
+  function updateAdvClocks() {
+    const now = new Date();
+    const pht = new Date(now.toLocaleString('en-US', { timeZone: 'Asia/Manila' }));
+    const hh = String(pht.getHours()).padStart(2, '0');
+    const mm = String(pht.getMinutes()).padStart(2, '0');
+    const ss = String(pht.getSeconds()).padStart(2, '0');
+    const timeStr = `${hh}:${mm}:${ss}`;
+    const timeShort = `${hh}:${mm} PHT`;
+
+    const hudClock = document.getElementById('advHudClock');
+    const mapClock = document.getElementById('advMapClock');
+    if (hudClock) hudClock.textContent = timeStr;
+    if (mapClock) mapClock.textContent = timeShort;
+  }
+
+  updateAdvClocks();
+  setInterval(updateAdvClocks, 1000);
+
+  // Map style toggle (street / satellite)
+  const iframe = document.getElementById('advMapIframe');
+  const btnStreet = document.getElementById('advMapStreet');
+  const btnSat = document.getElementById('advMapSat');
+
+  const MAP_STREET = "https://www.google.com/maps/embed?pb=!1m13!1m8!1m3!1d591.5354937899773!2d122.4751619!3d14.2895336!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zMTTCsDE3JzIzLjEiTiAxMjLCsDI4JzMxLjkiRQ!5e0!3m2!1sen!2sph!4v1773758842321!5m2!1sen!2sph";
+  const MAP_SAT   = "https://www.google.com/maps/embed?pb=!1m13!1m8!1m3!1d591.5354937899773!2d122.4751619!3d14.2895336!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zMTTCsDE3JzIzLjEiTiAxMjLCsDI4JzMxLjkiRQ!5e1!3m2!1sen!2sph!4v1773758842321!5m2!1sen!2sph";
+
+  if (btnStreet && iframe) {
+    btnStreet.addEventListener('click', () => {
+      iframe.src = MAP_STREET;
+      iframe.style.filter = 'saturate(0.75) contrast(1.1) brightness(0.9)';
+      btnStreet.classList.add('adv-ctrl-active');
+      if (btnSat) btnSat.classList.remove('adv-ctrl-active');
+    });
+  }
+  if (btnSat && iframe) {
+    btnSat.addEventListener('click', () => {
+      iframe.src = MAP_SAT;
+      iframe.style.filter = 'saturate(0.6) contrast(1.15) brightness(0.85)';
+      btnSat.classList.add('adv-ctrl-active');
+      if (btnStreet) btnStreet.classList.remove('adv-ctrl-active');
+    });
+  }
+
+  // Animate stats in when map section enters viewport
+  const mapSection = document.querySelector('.adv-map-section');
+  if (mapSection) {
+    const obs = new IntersectionObserver(entries => {
+      if (entries[0].isIntersecting) {
+        mapSection.classList.add('adv-map-visible');
+        obs.disconnect();
+      }
+    }, { threshold: 0.15 });
+    obs.observe(mapSection);
+  }
+
 })();
