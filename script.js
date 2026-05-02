@@ -9,8 +9,8 @@ menuIcon.onclick = () => {
 };
 
 // close menu when clicking link
-document.querySelectorAll(".navbar a").forEach(link =>{
-  link.onclick = () =>{
+document.querySelectorAll(".navbar a").forEach(link => {
+  link.onclick = () => {
     navbar.classList.remove("active");
     menuIcon.classList.remove("bx-x");
   }
@@ -18,7 +18,7 @@ document.querySelectorAll(".navbar a").forEach(link =>{
 
 // fix when resizing screen
 window.addEventListener("resize", () => {
-  if(window.innerWidth > 768){
+  if (window.innerWidth > 768) {
     navbar.classList.remove("active");
     menuIcon.classList.remove("bx-x");
   }
@@ -100,7 +100,7 @@ if (newsletterForm) {
   newsletterForm.addEventListener('submit', (e) => {
     e.preventDefault();
     const email = newsletterForm.querySelector('input').value;
-    
+
     if (email) {
       alert('✅ Thank you for subscribing! Check your email for confirmation.');
       newsletterForm.reset();
@@ -108,32 +108,24 @@ if (newsletterForm) {
   });
 }
 
-// ==================== TYPING EFFECT ====================
+// ==================== TYPING EFFECT (disabled — replaced by fixes.js) ====================
+// The improved typewriter is in the fixes section below. This original is kept for reference.
+/* ORIGINAL TYPING EFFECT — DISABLED
 document.addEventListener("DOMContentLoaded", () => {
-  const texts = [
-    "Full Stack Web Developer.",
-    "Video Editor",
-    "UI/UX Designer", "Front end dev."
-  ];
+  const texts = ["Full Stack Web Developer.", "Video Editor", "UI/UX Designer", "Front end dev."];
   const el = document.getElementById("changing-text");
   if (!el) return;
-
   let t = 0, c = 0, del = false;
-
   const type = () => {
     el.textContent = texts[t].substring(0, c);
-
     if (!del && c < texts[t].length) c++;
     else if (del && c > 0) c--;
-    else {
-      del = !del;
-      if (!del) t = (t + 1) % texts.length;
-      return setTimeout(type, 1400);
-    }
+    else { del = !del; if (!del) t = (t + 1) % texts.length; return setTimeout(type, 1400); }
     setTimeout(type, del ? 60 : 100);
   };
   type();
 });
+*/
 
 // ==================== COUNTER ====================
 const counters = document.querySelectorAll(".counter");
@@ -264,7 +256,7 @@ const db = getFirestore(app);
       const category = r.category || 'other';
       const date = r.date || '';
       const avatarSrc = r.avatar && r.avatar.startsWith('data:') ? r.avatar : getInitialsAvatar(name);
-      const stars = Array.from({length:5},(_,i)=>`<i class='bx bxs-star' style="opacity:${i<rating?1:0.15}"></i>`).join('');
+      const stars = Array.from({ length: 5 }, (_, i) => `<i class='bx bxs-star' style="opacity:${i < rating ? 1 : 0.15}"></i>`).join('');
 
       const cardHtml = `
         <div class="tr-card" data-category="${category}">
@@ -445,7 +437,7 @@ const db = getFirestore(app);
           return canvas.toDataURL();
         }
         const avatarSrc = r.avatar && r.avatar.startsWith('data:') ? r.avatar : getInitialsAvatarLocal(d.name);
-        const stars = Array.from({length:5},(_,i)=>`<i class='bx bxs-star' style="opacity:${i<d.rating?1:0.15}"></i>`).join('');
+        const stars = Array.from({ length: 5 }, (_, i) => `<i class='bx bxs-star' style="opacity:${i < d.rating ? 1 : 0.15}"></i>`).join('');
         const cardHtml = `
           <div class="tr-card" data-category="${d.category}">
             <div class="tr-card-header">
@@ -511,11 +503,11 @@ const db = getFirestore(app);
   reviewForm.addEventListener("submit", async function (e) {
     e.preventDefault();
 
-    const name    = document.getElementById("reviewerName").value.trim();
-    const email   = document.getElementById("reviewerEmail").value.trim();
+    const name = document.getElementById("reviewerName").value.trim();
+    const email = document.getElementById("reviewerEmail").value.trim();
     const company = document.getElementById("reviewerCompany").value.trim();
-    const text    = document.getElementById("reviewText").value.trim();
-    const rating  = parseInt(document.getElementById("selectedRating").value);
+    const text = document.getElementById("reviewText").value.trim();
+    const rating = parseInt(document.getElementById("selectedRating").value);
 
     if (!name || !text) {
       showReviewToast("Pakiusap lagyan ng pangalan at review! 😊", true);
@@ -534,7 +526,7 @@ const db = getFirestore(app);
     }
 
     const now = new Date();
-    const months = ["January","February","March","April","May","June","July","August","September","October","November","December"];
+    const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
     const review = {
       name,
       email,
@@ -582,54 +574,9 @@ const db = getFirestore(app);
 })();
 
 // ==================== ENHANCED THEME TOGGLE ====================
-const themeToggle = document.querySelector(".theme-toggle");
-const themeIcon = document.getElementById("theme-icon");
-
-// Check for saved theme preference or default to 'dark'
-const currentTheme = localStorage.getItem('theme') || 'dark';
-
-// Apply the saved theme on page load
-if (currentTheme === 'light') {
-  document.body.classList.add('light-mode');
-  themeIcon.classList.replace('bx-moon', 'bx-sun');
-}
-
-// Toggle theme on click
-if (themeToggle && themeIcon) {
-  themeToggle.onclick = () => {
-    // Toggle the light-mode class
-    document.body.classList.toggle('light-mode');
-    
-    // Check if light mode is active
-    const isLightMode = document.body.classList.contains('light-mode');
-    
-    // Update icon
-    if (isLightMode) {
-      themeIcon.classList.replace('bx-moon', 'bx-sun');
-      localStorage.setItem('theme', 'light');
-      console.log('✅ Light mode activated');
-    } else {
-      themeIcon.classList.replace('bx-sun', 'bx-moon');
-      localStorage.setItem('theme', 'dark');
-      console.log('🌙 Dark mode activated');
-    }
-    
-    // Optional: Add smooth scroll to top on theme change
-    // window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
-}
-
-// Optional: Add keyboard shortcut (Ctrl/Cmd + Shift + L) to toggle theme
-document.addEventListener('keydown', (e) => {
-  if ((e.ctrlKey || e.metaKey) && e.shiftKey && e.key === 'L') {
-    e.preventDefault();
-    if (themeToggle) {
-      themeToggle.click();
-    }
-  }
-});
-
-console.log('🎨 Theme toggle initialized. Current theme:', currentTheme);
+// ⚠️ DISABLED — theme is now handled solely by fixes.js (initThemeToggle)
+// to avoid conflicts. fixes.js uses localStorage key 'jvor-theme' and
+// always defaults to 'dark' on first visit.
 
 // About Card Animation
 createObserver(".about-card", "visible", 150, 0.2);
@@ -641,27 +588,27 @@ const pImg = document.getElementById("p-modal-img");
 const pClose = document.querySelector(".p-close");
 
 document.querySelectorAll(".btn-premium-view").forEach(btn => {
-    btn.onclick = function() {
-        const src = this.getAttribute("data-src");
-        pImg.src = src;
-        pModal.style.display = "flex";
-        setTimeout(() => {
-            pModal.classList.add("active");
-        }, 10);
-        document.body.style.overflow = "hidden";
-    }
+  btn.onclick = function () {
+    const src = this.getAttribute("data-src");
+    pImg.src = src;
+    pModal.style.display = "flex";
+    setTimeout(() => {
+      pModal.classList.add("active");
+    }, 10);
+    document.body.style.overflow = "hidden";
+  }
 });
 
 const closePremium = () => {
-    pModal.classList.remove("active");
-    setTimeout(() => {
-        pModal.style.display = "none";
-    }, 500);
-    document.body.style.overflow = "auto";
+  pModal.classList.remove("active");
+  setTimeout(() => {
+    pModal.style.display = "none";
+  }, 500);
+  document.body.style.overflow = "auto";
 };
 
 if (pClose) pClose.onclick = closePremium;
-window.onclick = (e) => { if(e.target.classList.contains('p-modal-overlay')) closePremium(); };
+window.onclick = (e) => { if (e.target.classList.contains('p-modal-overlay')) closePremium(); };
 
 // Re-init observer for the new cards
 createObserver(".premium-card", "visible", 200, 0.2);
@@ -678,7 +625,7 @@ document.querySelectorAll(".skill").forEach(skill => {
       let w = 0;
       const duration = 2000; // 2 seconds
       const increment = target / (duration / 16); // 60fps
-      
+
       const anim = () => {
         if (w <= target) {
           fill.style.width = w + "%";
@@ -719,16 +666,16 @@ serviceBoxes.forEach(box => {
     const rect = box.getBoundingClientRect();
     const x = e.clientX - rect.left;
     const y = e.clientY - rect.top;
-    
+
     const centerX = rect.width / 2;
     const centerY = rect.height / 2;
-    
+
     const rotateX = ((y - centerY) / centerY) * 5;
     const rotateY = ((centerX - x) / centerX) * 5;
-    
+
     box.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-10px)`;
   });
-  
+
   box.addEventListener('mouseleave', () => {
     box.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) translateY(0)';
   });
@@ -749,10 +696,10 @@ skillBadges.forEach(badge => {
     ripple.style.background = 'rgba(234, 88, 12, 0.3)';
     ripple.style.borderRadius = '3rem';
     ripple.style.animation = 'ripple 0.6s ease-out';
-    
+
     badge.style.position = 'relative';
     badge.appendChild(ripple);
-    
+
     setTimeout(() => ripple.remove(), 600);
   });
 });
@@ -886,7 +833,7 @@ if (ctaButton) {
   ctaButton.addEventListener('click', (e) => {
     e.preventDefault();
     const contactSection = document.querySelector('#contact');
-    
+
     if (contactSection) {
       contactSection.scrollIntoView({
         behavior: 'smooth',
@@ -899,15 +846,15 @@ if (ctaButton) {
 // ==================== PARALLAX EFFECT ON SKILLS SECTION ====================
 window.addEventListener('scroll', () => {
   const skillsSection = document.querySelector('.tech-skills');
-  
+
   if (skillsSection) {
     const scrolled = window.pageYOffset;
     const skillsTop = skillsSection.offsetTop;
     const skillsHeight = skillsSection.offsetHeight;
-    
+
     if (scrolled > skillsTop - window.innerHeight && scrolled < skillsTop + skillsHeight) {
       const parallax = (scrolled - skillsTop) * 0.1;
-      
+
       const categories = skillsSection.querySelectorAll('.tech-category');
       categories.forEach((category, index) => {
         const speed = (index + 1) * 0.05;
@@ -938,12 +885,12 @@ const techIconColors = {
 // Apply colors on hover
 document.querySelectorAll('.tech-item i, .tech-icons i').forEach(icon => {
   const iconClass = Array.from(icon.classList).find(cls => cls.startsWith('bxl-'));
-  
+
   if (iconClass && techIconColors[iconClass]) {
     icon.addEventListener('mouseenter', () => {
       icon.style.color = techIconColors[iconClass];
     });
-    
+
     icon.addEventListener('mouseleave', () => {
       icon.style.color = 'var(--main-color)';
     });
@@ -953,7 +900,7 @@ document.querySelectorAll('.tech-item i, .tech-icons i').forEach(icon => {
 // ==================== SERVICE TAGS SHUFFLE ON HOVER ====================
 serviceBoxes.forEach(box => {
   const tags = box.querySelectorAll('.service-tags span');
-  
+
   box.addEventListener('mouseenter', () => {
     tags.forEach((tag, index) => {
       setTimeout(() => {
@@ -961,7 +908,7 @@ serviceBoxes.forEach(box => {
       }, index * 50);
     });
   });
-  
+
   box.addEventListener('mouseleave', () => {
     tags.forEach(tag => {
       tag.style.transform = 'translateY(0)';
@@ -1107,14 +1054,14 @@ if (filterBtns.length && projectCards.length) {
 
       projectCards.forEach((card, index) => {
         const category = card.dataset.category;
-        
+
         if (filter === 'all' || category.includes(filter)) {
           // Show card with staggered animation
           setTimeout(() => {
             card.style.display = 'block';
             card.style.opacity = '0';
             card.style.transform = 'translateY(30px)';
-            
+
             setTimeout(() => {
               card.style.transition = 'all 0.6s ease';
               card.style.opacity = '1';
@@ -1278,7 +1225,7 @@ projectLinks.forEach(link => {
 if (projectCards.length) {
   projectCards.forEach(card => {
     const overlay = card.querySelector('.project-overlay');
-    
+
     card.addEventListener('mouseenter', () => {
       const img = card.querySelector('.project-image img');
       if (img) {
@@ -1304,7 +1251,7 @@ if (viewMoreBtn) {
     if (!viewMoreBtn.href.includes('#')) {
       return;
     }
-    
+
     e.preventDefault();
     window.scrollTo({
       top: 0,
@@ -1330,7 +1277,7 @@ if (projectsHeading) {
   projectsHeading.style.opacity = '0';
   projectsHeading.style.transform = 'translateY(-20px)';
   projectsHeading.style.transition = 'all 0.8s ease';
-  
+
   headingObserver.observe(projectsHeading);
 }
 
@@ -1348,7 +1295,7 @@ projectCards.forEach((card, index) => {
   card.setAttribute('tabindex', '0');
   card.setAttribute('role', 'article');
   card.setAttribute('aria-label', `Project ${index + 1}`);
-  
+
   card.addEventListener('keypress', (e) => {
     if (e.key === 'Enter') {
       const detailBtn = card.querySelector('.project-details-btn');
@@ -1362,14 +1309,14 @@ projectCards.forEach((card, index) => {
 // Focus trap in modal
 if (projectModal) {
   const focusableElements = 'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])';
-  
+
   projectModal.addEventListener('keydown', (e) => {
     if (!projectModal.classList.contains('active')) return;
-    
+
     const focusable = projectModal.querySelectorAll(focusableElements);
     const firstFocusable = focusable[0];
     const lastFocusable = focusable[focusable.length - 1];
-    
+
     if (e.key === 'Tab') {
       if (e.shiftKey) {
         if (document.activeElement === firstFocusable) {
@@ -1390,17 +1337,17 @@ console.log('🚀 Enhanced Projects Section - Ready!');
 
 
 // ==================== PHOTO GALLERY LIGHTBOX ====================
-(function() {
+(function () {
   const galleryModal = document.getElementById('galleryModal');
   if (!galleryModal) return;
 
-  const modalImg     = document.getElementById('gallery-modal-img');
+  const modalImg = document.getElementById('gallery-modal-img');
   const modalCurrent = document.getElementById('gallery-current');
-  const modalTotal   = document.getElementById('gallery-total');
-  const closeBtn     = galleryModal.querySelector('.gallery-modal-close');
-  const prevBtn      = galleryModal.querySelector('.gallery-modal-prev');
-  const nextBtn      = galleryModal.querySelector('.gallery-modal-next');
-  const overlay      = galleryModal.querySelector('.gallery-modal-overlay');
+  const modalTotal = document.getElementById('gallery-total');
+  const closeBtn = galleryModal.querySelector('.gallery-modal-close');
+  const prevBtn = galleryModal.querySelector('.gallery-modal-prev');
+  const nextBtn = galleryModal.querySelector('.gallery-modal-next');
+  const overlay = galleryModal.querySelector('.gallery-modal-overlay');
 
   const items = document.querySelectorAll('.gallery-item');
   let currentIndex = 0;
@@ -1457,9 +1404,9 @@ console.log('🚀 Enhanced Projects Section - Ready!');
 
   document.addEventListener('keydown', (e) => {
     if (!galleryModal.classList.contains('active')) return;
-    if (e.key === 'ArrowLeft')  showPrev();
+    if (e.key === 'ArrowLeft') showPrev();
     if (e.key === 'ArrowRight') showNext();
-    if (e.key === 'Escape')     closeModal();
+    if (e.key === 'Escape') closeModal();
   });
 
   // Scroll reveal
@@ -1480,17 +1427,17 @@ console.log('🚀 Enhanced Projects Section - Ready!');
 // ==================== EMAILJS CONTACT FORM ====================
 (function () {
 
-  const EMAILJS_PUBLIC_KEY  = '_gHT9V4PLtdDkYzou';
-  const EMAILJS_SERVICE_ID  = 'service_mpv0lec';
-  const EMAILJS_TEMPLATE_ID = 'template_rpzjy36';
+  const EMAILJS_PUBLIC_KEY = '_gHT9V4PLtdDkYzou';
+  const EMAILJS_SERVICE_ID = 'service_4cbkcme';
+  const EMAILJS_TEMPLATE_ID = 'template_jb92mdt';
 
-  const form      = document.getElementById('contactForm');
+  const form = document.getElementById('contactForm');
   const submitBtn = document.getElementById('submitBtn');
   if (!form) return;
 
   const fields = {
-    name:    { el: document.getElementById('cf-name'),    err: document.getElementById('err-name') },
-    email:   { el: document.getElementById('cf-email'),   err: document.getElementById('err-email') },
+    name: { el: document.getElementById('cf-name'), err: document.getElementById('err-name') },
+    email: { el: document.getElementById('cf-email'), err: document.getElementById('err-email') },
     subject: { el: document.getElementById('cf-subject'), err: document.getElementById('err-subject') },
     message: { el: document.getElementById('cf-message'), err: document.getElementById('err-message') },
   };
@@ -1516,10 +1463,10 @@ console.log('🚀 Enhanced Projects Section - Ready!');
 
   const validate = () => {
     let ok = true;
-    if (!fields.name.el.value.trim())          { setError('name');    ok = false; } else setValid('name');
-    if (!validateEmail(fields.email.el.value)) { setError('email');   ok = false; } else setValid('email');
-    if (!fields.subject.el.value.trim())       { setError('subject'); ok = false; } else setValid('subject');
-    if (!fields.message.el.value.trim())       { setError('message'); ok = false; } else setValid('message');
+    if (!fields.name.el.value.trim()) { setError('name'); ok = false; } else setValid('name');
+    if (!validateEmail(fields.email.el.value)) { setError('email'); ok = false; } else setValid('email');
+    if (!fields.subject.el.value.trim()) { setError('subject'); ok = false; } else setValid('subject');
+    if (!fields.message.el.value.trim()) { setError('message'); ok = false; } else setValid('message');
     return ok;
   };
 
@@ -1544,13 +1491,13 @@ console.log('🚀 Enhanced Projects Section - Ready!');
 
   // Button UI state helpers
   const setButtonState = (state) => {
-    const defEl  = submitBtn?.querySelector('.ct-submit-default');
+    const defEl = submitBtn?.querySelector('.ct-submit-default');
     const sendEl = submitBtn?.querySelector('.ct-submit-sending');
     const doneEl = submitBtn?.querySelector('.ct-submit-done');
     if (!defEl) return;
-    defEl.style.display  = state === 'default'  ? 'flex' : 'none';
-    sendEl.style.display = state === 'sending'  ? 'flex' : 'none';
-    doneEl.style.display = state === 'done'     ? 'flex' : 'none';
+    defEl.style.display = state === 'default' ? 'flex' : 'none';
+    sendEl.style.display = state === 'sending' ? 'flex' : 'none';
+    doneEl.style.display = state === 'done' ? 'flex' : 'none';
   };
 
   // Load EmailJS SDK then attach the single submit handler
@@ -2171,7 +2118,7 @@ console.log('🎆 Particle trail, code rain & radar chart loaded!');
         card.appendChild(shine);
       }
       const angle = Math.atan2(y - cy, x - cx) * (180 / Math.PI);
-      shine.style.background = `radial-gradient(circle at ${(x/rect.width)*100}% ${(y/rect.height)*100}%, rgba(255,255,255,0.12) 0%, transparent 60%)`;
+      shine.style.background = `radial-gradient(circle at ${(x / rect.width) * 100}% ${(y / rect.height) * 100}%, rgba(255,255,255,0.12) 0%, transparent 60%)`;
       shine.style.opacity = '1';
     });
     card.addEventListener('mouseleave', () => {
@@ -2324,7 +2271,7 @@ console.log('🎆 Particle trail, code rain & radar chart loaded!');
 // ✨ FEATURE 10: KONAMI CODE EASTER EGG 🎉
 // ============================================================
 (function initKonamiEgg() {
-  const konamiCode = ['ArrowUp','ArrowUp','ArrowDown','ArrowDown','ArrowLeft','ArrowRight','ArrowLeft','ArrowRight','b','a'];
+  const konamiCode = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'b', 'a'];
   let progress = 0;
 
   document.addEventListener('keydown', e => {
@@ -2511,8 +2458,8 @@ console.log('🎆 Particle trail, code rain & radar chart loaded!');
       ripple.style.cssText = `
         position: absolute; border-radius: 50%;
         width: ${size}px; height: ${size}px;
-        left: ${e.clientX - rect.left - size/2}px;
-        top: ${e.clientY - rect.top - size/2}px;
+        left: ${e.clientX - rect.left - size / 2}px;
+        top: ${e.clientY - rect.top - size / 2}px;
         background: rgba(234,88,12,0.4);
         transform: scale(0); animation: skillRipple 0.6s ease-out forwards;
         pointer-events: none;
@@ -2683,11 +2630,11 @@ console.log('🚀 Advanced features v2.0 loaded! Konami code enabled 🕹️');
 
   form.addEventListener("submit", async function (e) {
     e.preventDefault();
-    const name    = document.getElementById("reviewerName")?.value.trim();
-    const email   = document.getElementById("reviewerEmail")?.value.trim();
+    const name = document.getElementById("reviewerName")?.value.trim();
+    const email = document.getElementById("reviewerEmail")?.value.trim();
     const company = document.getElementById("reviewerCompany")?.value.trim();
-    const text    = document.getElementById("reviewText")?.value.trim();
-    const rating  = parseInt(document.getElementById("selectedRating")?.value || "0");
+    const text = document.getElementById("reviewText")?.value.trim();
+    const rating = parseInt(document.getElementById("selectedRating")?.value || "0");
     const category = document.getElementById("reviewerCategory")?.value || "other";
 
     if (!name || !text) { showToast("Pakiusap lagyan ng pangalan at review! 😊", true); return; }
@@ -2697,7 +2644,7 @@ console.log('🚀 Advanced features v2.0 loaded! Konami code enabled 🕹️');
     if (btn) { btn.disabled = true; btn.innerHTML = `<i class='bx bx-loader-alt bx-spin'></i> Sending...`; }
 
     const now = new Date();
-    const months = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+    const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
     const date = `${months[now.getMonth()]} ${now.getFullYear()}`;
     const cardData = { name, company, text, rating, category, date };
 
@@ -2806,8 +2753,8 @@ if (ratingBars.length) {
 (function () {
   const btns = document.querySelectorAll('.tr-star-btn');
   const input = document.getElementById('selectedRating');
-  const hint  = document.getElementById('trStarHint');
-  const hints = { 1:'Poor experience',2:'Fair — room to improve',3:'Good work overall',4:'Very good!',5:'Excellent — highly recommend! ⭐' };
+  const hint = document.getElementById('trStarHint');
+  const hints = { 1: 'Poor experience', 2: 'Fair — room to improve', 3: 'Good work overall', 4: 'Very good!', 5: 'Excellent — highly recommend! ⭐' };
   if (!btns.length) return;
   let selected = 0;
 
@@ -2881,16 +2828,16 @@ if (ratingBars.length) {
     t.style.background = ok
       ? 'linear-gradient(135deg,#22c55e,#16a34a)'
       : 'linear-gradient(135deg,#ef4444,#dc2626)';
-    t.innerHTML = `<i class='bx bx-${ok?"check-circle":"error-circle"}' style="font-size:2.2rem"></i> ${msg}`;
+    t.innerHTML = `<i class='bx bx-${ok ? "check-circle" : "error-circle"}' style="font-size:2.2rem"></i> ${msg}`;
     requestAnimationFrame(() => { t.style.transform = 'translateX(-50%) translateY(0)'; t.style.opacity = '1'; });
     setTimeout(() => { t.style.transform = 'translateX(-50%) translateY(120px)'; t.style.opacity = '0'; }, 4000);
   }
 
   function buildPremiumCard(d) {
-    const stars = Array.from({length:5},(_,i)=>`<i class='bx bxs-star' style="opacity:${i<d.rating?1:0.15}"></i>`).join('');
+    const stars = Array.from({ length: 5 }, (_, i) => `<i class='bx bxs-star' style="opacity:${i < d.rating ? 1 : 0.15}"></i>`).join('');
     const avatarSrc = d.avatar || getAvatarUrl(d.name);
     return `
-      <div class="tr-card" data-category="${d.category||'other'}" style="animation:cardFadeIn 0.6s ease forwards">
+      <div class="tr-card" data-category="${d.category || 'other'}" style="animation:cardFadeIn 0.6s ease forwards">
         <div class="tr-card-header">
           <div class="tr-card-avatar-wrap">
             <img src="${avatarSrc}" alt="${d.name}" class="tr-card-avatar">
@@ -2898,7 +2845,7 @@ if (ratingBars.length) {
           </div>
           <div class="tr-card-author-info">
             <h4>${d.name}</h4>
-            <span class="tr-card-position">${d.company||'Client'}</span>
+            <span class="tr-card-position">${d.company || 'Client'}</span>
             <span class="tr-card-company">New Review</span>
           </div>
           <div class="tr-card-stars">${stars}</div>
@@ -2908,32 +2855,32 @@ if (ratingBars.length) {
           <p>"${d.text}"</p>
         </div>
         <div class="tr-card-footer">
-          <span class="tr-card-type"><i class='bx bx-briefcase'></i> ${d.category||'Other'}</span>
+          <span class="tr-card-type"><i class='bx bx-briefcase'></i> ${d.category || 'Other'}</span>
           <span class="tr-card-when">${d.date}</span>
         </div>
       </div>`;
   }
 
-  form.addEventListener('submit', async function(e) {
+  form.addEventListener('submit', async function (e) {
     e.preventDefault();
-    const name     = document.getElementById('reviewerName')?.value.trim();
-    const email    = document.getElementById('reviewerEmail')?.value.trim();
-    const company  = document.getElementById('reviewerCompany')?.value.trim();
-    const text     = document.getElementById('reviewText')?.value.trim();
-    const rating   = parseInt(document.getElementById('selectedRating')?.value || '0');
+    const name = document.getElementById('reviewerName')?.value.trim();
+    const email = document.getElementById('reviewerEmail')?.value.trim();
+    const company = document.getElementById('reviewerCompany')?.value.trim();
+    const text = document.getElementById('reviewText')?.value.trim();
+    const rating = parseInt(document.getElementById('selectedRating')?.value || '0');
     const category = document.getElementById('reviewerCategory')?.value || 'other';
 
     if (!name || !email) { showPremiumToast('Please fill in your name and email! 😊', false); return; }
-    if (!text)           { showPremiumToast('Please write your review first! 📝', false); return; }
-    if (rating < 1)      { showPremiumToast('Please select a star rating! ⭐', false); return; }
+    if (!text) { showPremiumToast('Please write your review first! 📝', false); return; }
+    if (rating < 1) { showPremiumToast('Please select a star rating! ⭐', false); return; }
 
     const btn = document.getElementById('trSubmitBtn');
-    const content  = btn?.querySelector('.tr-submit-content');
-    const loading  = btn?.querySelector('.tr-submit-loading');
-    if (btn) { btn.disabled = true; if(content) content.style.display='none'; if(loading) loading.style.display='flex'; }
+    const content = btn?.querySelector('.tr-submit-content');
+    const loading = btn?.querySelector('.tr-submit-loading');
+    if (btn) { btn.disabled = true; if (content) content.style.display = 'none'; if (loading) loading.style.display = 'flex'; }
 
     const now = new Date();
-    const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+    const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
     const date = `${months[now.getMonth()]} ${now.getFullYear()}`;
     const avatarData = getAvatarUrl(name);
     const cardData = { name, company, text, rating, category, date, avatar: avatarData };
@@ -2943,7 +2890,7 @@ if (ratingBars.length) {
       const { getFirestore, collection, addDoc, serverTimestamp } = await import('https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js');
       const db = getFirestore();
       await addDoc(collection(db, 'reviews'), { ...cardData, email, timestamp: serverTimestamp() });
-    } catch(_) { /* ignore – show anyway */ }
+    } catch (_) { /* ignore – show anyway */ }
 
     // Inject card into grid
     const grid = document.getElementById('testiGrid');
@@ -2964,7 +2911,7 @@ if (ratingBars.length) {
     document.querySelectorAll('.tr-star-btn').forEach(b => b.classList.remove('lit'));
     const hint = document.getElementById('trStarHint');
     if (hint) hint.textContent = 'Click to rate your experience';
-    if (btn) { btn.disabled = false; if(content) content.style.display='flex'; if(loading) loading.style.display='none'; }
+    if (btn) { btn.disabled = false; if (content) content.style.display = 'flex'; if (loading) loading.style.display = 'none'; }
 
     // Scroll to new card
     setTimeout(() => {
@@ -2991,7 +2938,7 @@ console.log('🔥 Premium portfolio v3 — fully loaded!');
 
 // ── Tech Card Tab Filtering ──
 (function () {
-  const tabs  = document.querySelectorAll('.ts-tab-btn');
+  const tabs = document.querySelectorAll('.ts-tab-btn');
   const cards = document.querySelectorAll('.ts-card');
   if (!tabs.length) return;
 
@@ -3056,8 +3003,8 @@ console.log('🔥 Premium portfolio v3 — fully loaded!');
       if (!entry.isIntersecting) return;
       const item = entry.target;
       const fill = item.querySelector('.ts-prof-fill');
-      const pct  = item.querySelector('.ts-prof-pct');
-      const w    = parseInt(fill?.dataset.w || '0');
+      const pct = item.querySelector('.ts-prof-pct');
+      const w = parseInt(fill?.dataset.w || '0');
 
       if (fill) fill.style.width = w + '%';
 
@@ -3100,9 +3047,9 @@ console.log('🔥 Premium portfolio v3 — fully loaded!');
     card.addEventListener('mousemove', e => {
       const rect = card.getBoundingClientRect();
       const x = e.clientX - rect.left - rect.width / 2;
-      const y = e.clientY - rect.top  - rect.height / 2;
+      const y = e.clientY - rect.top - rect.height / 2;
       const rx = (-y / rect.height * 10).toFixed(2);
-      const ry = ( x / rect.width  * 10).toFixed(2);
+      const ry = (x / rect.width * 10).toFixed(2);
       card.style.transform = `translateY(-8px) scale(1.02) rotateX(${rx}deg) rotateY(${ry}deg)`;
       card.style.transformStyle = 'preserve-3d';
     });
@@ -3126,9 +3073,9 @@ console.log('⚡ Tech Skills v3 — premium loaded!');
     if (!el) return;
     const now = new Date();
     const pht = new Date(now.toLocaleString('en-US', { timeZone: 'Asia/Manila' }));
-    const h = String(pht.getHours()).padStart(2,'0');
-    const m = String(pht.getMinutes()).padStart(2,'0');
-    const s = String(pht.getSeconds()).padStart(2,'0');
+    const h = String(pht.getHours()).padStart(2, '0');
+    const m = String(pht.getMinutes()).padStart(2, '0');
+    const s = String(pht.getSeconds()).padStart(2, '0');
     el.textContent = `${h}:${m}:${s}`;
   }
   updateClock();
@@ -3177,7 +3124,7 @@ console.log('⚡ Tech Skills v3 — premium loaded!');
           btn.classList.remove('copied');
           btn.title = 'Copy email';
         }, 2000);
-      } catch (_) {}
+      } catch (_) { }
     });
   });
 
@@ -3349,22 +3296,22 @@ console.log('🚀 Premium Footer v3 — fully loaded!');
     const cols = size / cell;
     // QR-like deterministic pattern
     const pattern = [
-      1,1,1,1,1,1,1,0,1,0,1,1,1,0,1,1,
-      1,0,0,0,0,0,1,0,0,1,0,0,1,0,1,0,
-      1,0,1,1,1,0,1,0,1,1,1,0,0,1,0,1,
-      1,0,1,1,1,0,1,0,0,0,1,1,1,0,1,1,
-      1,0,1,1,1,0,1,0,1,0,0,1,0,1,0,0,
-      1,0,0,0,0,0,1,0,0,1,1,0,1,0,1,1,
-      1,1,1,1,1,1,1,0,1,0,1,0,1,0,1,0,
-      0,0,0,0,0,0,0,0,0,1,0,1,0,0,0,1,
-      1,0,1,1,0,0,1,1,1,0,1,1,1,0,1,0,
-      0,1,0,0,1,1,0,0,0,1,0,0,0,1,0,1,
-      1,0,1,0,1,0,1,1,0,1,1,0,1,0,1,0,
-      0,1,1,1,0,1,0,0,1,0,0,1,0,1,1,1,
-      1,1,1,1,1,1,1,0,0,1,0,0,1,0,0,0,
-      1,0,0,0,0,0,1,0,1,0,1,0,0,1,0,1,
-      1,1,1,1,1,1,1,0,0,1,0,1,0,0,1,0,
-      0,0,0,0,0,0,0,1,1,0,1,1,1,0,0,1,
+      1, 1, 1, 1, 1, 1, 1, 0, 1, 0, 1, 1, 1, 0, 1, 1,
+      1, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 1, 0,
+      1, 0, 1, 1, 1, 0, 1, 0, 1, 1, 1, 0, 0, 1, 0, 1,
+      1, 0, 1, 1, 1, 0, 1, 0, 0, 0, 1, 1, 1, 0, 1, 1,
+      1, 0, 1, 1, 1, 0, 1, 0, 1, 0, 0, 1, 0, 1, 0, 0,
+      1, 0, 0, 0, 0, 0, 1, 0, 0, 1, 1, 0, 1, 0, 1, 1,
+      1, 1, 1, 1, 1, 1, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0,
+      0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 1,
+      1, 0, 1, 1, 0, 0, 1, 1, 1, 0, 1, 1, 1, 0, 1, 0,
+      0, 1, 0, 0, 1, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1,
+      1, 0, 1, 0, 1, 0, 1, 1, 0, 1, 1, 0, 1, 0, 1, 0,
+      0, 1, 1, 1, 0, 1, 0, 0, 1, 0, 0, 1, 0, 1, 1, 1,
+      1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 0, 0, 1, 0, 0, 0,
+      1, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1, 0, 0, 1, 0, 1,
+      1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 0, 1, 0, 0, 1, 0,
+      0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 1, 1, 1, 0, 0, 1,
     ];
     ctx.fillStyle = '#fff';
     ctx.fillRect(0, 0, size, size);
@@ -3441,12 +3388,12 @@ console.log('💳 Premium Digital ID Card v2 + Bento Grid — loaded!');
 //  HIRE ME MODAL — JVOR DEV.
 // ════════════════════════════════════════════════════════════════
 (function initHireModal() {
-  const modal      = document.getElementById('hireMeModal');
-  const openBtn    = document.getElementById('openHireModal');
-  const closeBtn   = document.getElementById('closeHireModal');
-  const backdrop   = modal?.querySelector('.hm-backdrop');
-  const goContact  = document.getElementById('hm-go-contact');
-  const toast      = document.getElementById('hmCopyToast');
+  const modal = document.getElementById('hireMeModal');
+  const openBtn = document.getElementById('openHireModal');
+  const closeBtn = document.getElementById('closeHireModal');
+  const backdrop = modal?.querySelector('.hm-backdrop');
+  const goContact = document.getElementById('hm-go-contact');
+  const toast = document.getElementById('hmCopyToast');
 
   if (!modal || !openBtn) return;
 
@@ -3535,12 +3482,12 @@ console.log('💳 Premium Digital ID Card v2 + Bento Grid — loaded!');
   });
 
   // ── Lightbox ─────────────────────────────────────────────
-  const lightbox    = document.getElementById('csLightbox');
-  const lbImg       = document.getElementById('csLightboxImg');
-  const lbOverlay   = lightbox ? lightbox.querySelector('.cs-lb-overlay') : null;
-  const lbClose     = lightbox ? lightbox.querySelector('.cs-lb-close')   : null;
-  const lbPrev      = lightbox ? lightbox.querySelector('.cs-lb-prev')    : null;
-  const lbNext      = lightbox ? lightbox.querySelector('.cs-lb-next')    : null;
+  const lightbox = document.getElementById('csLightbox');
+  const lbImg = document.getElementById('csLightboxImg');
+  const lbOverlay = lightbox ? lightbox.querySelector('.cs-lb-overlay') : null;
+  const lbClose = lightbox ? lightbox.querySelector('.cs-lb-close') : null;
+  const lbPrev = lightbox ? lightbox.querySelector('.cs-lb-prev') : null;
+  const lbNext = lightbox ? lightbox.querySelector('.cs-lb-next') : null;
 
   // Collect only non-placeholder graphic cards
   let csImages = [];
@@ -3559,8 +3506,8 @@ console.log('💳 Premium Digital ID Card v2 + Bento Grid — loaded!');
   function openLightbox(idx) {
     if (!lightbox || csImages.length === 0) return;
     csCurrentIdx = idx;
-    lbImg.src  = csImages[idx].src;
-    lbImg.alt  = csImages[idx].alt;
+    lbImg.src = csImages[idx].src;
+    lbImg.alt = csImages[idx].alt;
     lightbox.classList.add('cs-lb-open');
     document.body.style.overflow = 'hidden';
   }
@@ -3587,15 +3534,15 @@ console.log('💳 Premium Digital ID Card v2 + Bento Grid — loaded!');
     openLightbox(Math.min(idx, csImages.length - 1));
   });
 
-  if (lbClose)   lbClose.addEventListener('click', closeLightbox);
+  if (lbClose) lbClose.addEventListener('click', closeLightbox);
   if (lbOverlay) lbOverlay.addEventListener('click', closeLightbox);
-  if (lbPrev)    lbPrev.addEventListener('click', () => navigate(-1));
-  if (lbNext)    lbNext.addEventListener('click', () => navigate(1));
+  if (lbPrev) lbPrev.addEventListener('click', () => navigate(-1));
+  if (lbNext) lbNext.addEventListener('click', () => navigate(1));
 
   document.addEventListener('keydown', function (e) {
     if (!lightbox || !lightbox.classList.contains('cs-lb-open')) return;
-    if (e.key === 'Escape')     closeLightbox();
-    if (e.key === 'ArrowLeft')  navigate(-1);
+    if (e.key === 'Escape') closeLightbox();
+    if (e.key === 'ArrowLeft') navigate(-1);
     if (e.key === 'ArrowRight') navigate(1);
   });
 })();
@@ -3630,7 +3577,7 @@ console.log('💳 Premium Digital ID Card v2 + Bento Grid — loaded!');
   const btnSat = document.getElementById('advMapSat');
 
   const MAP_STREET = "https://www.google.com/maps/embed?pb=!1m13!1m8!1m3!1d591.5354937899773!2d122.4751619!3d14.2895336!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zMTTCsDE3JzIzLjEiTiAxMjLCsDI4JzMxLjkiRQ!5e0!3m2!1sen!2sph!4v1773758842321!5m2!1sen!2sph";
-  const MAP_SAT   = "https://www.google.com/maps/embed?pb=!1m13!1m8!1m3!1d591.5354937899773!2d122.4751619!3d14.2895336!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zMTTCsDE3JzIzLjEiTiAxMjLCsDI4JzMxLjkiRQ!5e1!3m2!1sen!2sph!4v1773758842321!5m2!1sen!2sph";
+  const MAP_SAT = "https://www.google.com/maps/embed?pb=!1m13!1m8!1m3!1d591.5354937899773!2d122.4751619!3d14.2895336!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zMTTCsDE3JzIzLjEiTiAxMjLCsDI4JzMxLjkiRQ!5e1!3m2!1sen!2sph!4v1773758842321!5m2!1sen!2sph";
 
   if (btnStreet && iframe) {
     btnStreet.addEventListener('click', () => {
@@ -3660,5 +3607,2328 @@ console.log('💳 Premium Digital ID Card v2 + Bento Grid — loaded!');
     }, { threshold: 0.15 });
     obs.observe(mapSection);
   }
+
+})();
+// ═══ JVOR DEV FIXES — appended below ═══
+// ═══════════════════════════════════════════════════════════════════
+//  JVOR DEV — PORTFOLIO FIXES & ENHANCEMENTS
+//  Fixes: Typewriter, Gallery, Map visibility, Scroll animations,
+//         Offline mode with auto-refresh
+// ═══════════════════════════════════════════════════════════════════
+
+/* ─────────────────────────────────────────────────────────────────
+   FIX 1: TYPEWRITER EFFECT — Home & About sections
+   Problem: The original typing effect sometimes breaks or doesn't
+   restart correctly after deleting. This replaces it completely.
+───────────────────────────────────────────────────────────────── */
+(function fixTypewriter() {
+  const el = document.getElementById('changing-text');
+  if (!el) return;
+
+  const texts = [
+    'Full Stack Web Developer',
+    'UI/UX Designer',
+    'Video Editor',
+    'Front-End Developer',
+    'Creative Thinker'
+  ];
+
+  let textIndex = 0;
+  let charIndex = 0;
+  let isDeleting = false;
+  let isPaused = false;
+
+  // Add blinking cursor
+  el.style.borderRight = '3px solid var(--main-color, #ea580c)';
+  el.style.paddingRight = '2px';
+
+  // Blink cursor animation
+  const cursorStyle = document.createElement('style');
+  cursorStyle.textContent = `
+    #changing-text {
+      border-right: 3px solid var(--main-color, #ea580c) !important;
+      animation: blink-cursor 0.75s step-end infinite;
+      display: inline-block;
+    }
+    @keyframes blink-cursor {
+      0%, 100% { border-color: var(--main-color, #ea580c); }
+      50% { border-color: transparent; }
+    }
+  `;
+  document.head.appendChild(cursorStyle);
+
+  function type() {
+    if (isPaused) return;
+
+    const currentText = texts[textIndex];
+
+    if (!isDeleting) {
+      // Typing forward
+      charIndex++;
+      el.textContent = currentText.substring(0, charIndex);
+
+      if (charIndex === currentText.length) {
+        // Full word typed — pause before deleting
+        isPaused = true;
+        setTimeout(() => {
+          isPaused = false;
+          isDeleting = true;
+          setTimeout(type, 60);
+        }, 2200);
+        return;
+      }
+      setTimeout(type, 95);
+    } else {
+      // Deleting
+      charIndex--;
+      el.textContent = currentText.substring(0, charIndex);
+
+      if (charIndex === 0) {
+        // Done deleting — move to next word
+        isDeleting = false;
+        textIndex = (textIndex + 1) % texts.length;
+
+        isPaused = true;
+        setTimeout(() => {
+          isPaused = false;
+          setTimeout(type, 95);
+        }, 400);
+        return;
+      }
+      setTimeout(type, 50);
+    }
+  }
+
+  // Small delay before starting so DOM is settled
+  setTimeout(type, 800);
+})();
+
+/* ─────────────────────────────────────────────────────────────────
+   FIX 2: ABOUT SECTION ANIMATED TEXT (typing in about bio)
+   Makes the greeting text animate nicely on scroll into view
+───────────────────────────────────────────────────────────────── */
+(function fixAboutAnimations() {
+  // Ensure about section elements animate on scroll
+  const aboutTargets = [
+    '.aib-greeting',
+    '.aib-name',
+    '.aib-role-row',
+    '.aib-bio',
+    '.aib-stat-strip',
+    '.aib-info-grid',
+    '.aib-actions',
+    '.aib-float-tag',
+    '.wid-card',
+    '.atl-card',
+    '.asp-bar-item'
+  ];
+
+  const aboutStyle = document.createElement('style');
+  aboutStyle.textContent = `
+    /* About section entrance animations */
+    .aib-greeting,
+    .aib-name,
+    .aib-role-row,
+    .aib-bio,
+    .aib-stat-strip,
+    .aib-info-grid,
+    .aib-actions {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity 0.7s ease, transform 0.7s cubic-bezier(0.23, 1, 0.32, 1);
+    }
+    .aib-photo-frame {
+      opacity: 0;
+      transform: scale(0.92) translateY(20px);
+      transition: opacity 0.9s ease, transform 0.9s cubic-bezier(0.23, 1, 0.32, 1);
+    }
+    .aib-float-tag {
+      opacity: 0;
+      transform: scale(0.7);
+      transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    .wid-card {
+      opacity: 0;
+      transform: translateY(40px) scale(0.97);
+      transition: opacity 0.6s ease, transform 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+    }
+    .atl-card {
+      opacity: 0;
+      transform: translateX(-30px);
+      transition: opacity 0.7s ease, transform 0.7s cubic-bezier(0.23, 1, 0.32, 1);
+    }
+    .atl-side--right .atl-card {
+      transform: translateX(30px);
+    }
+    .asp-bar-item {
+      opacity: 0;
+      transform: translateX(-20px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+
+    /* Visible states */
+    .aib-greeting.about-vis { opacity: 1; transform: translateY(0); transition-delay: 0.1s; }
+    .aib-name.about-vis { opacity: 1; transform: translateY(0); transition-delay: 0.2s; }
+    .aib-role-row.about-vis { opacity: 1; transform: translateY(0); transition-delay: 0.3s; }
+    .aib-bio.about-vis { opacity: 1; transform: translateY(0); transition-delay: 0.4s; }
+    .aib-stat-strip.about-vis { opacity: 1; transform: translateY(0); transition-delay: 0.5s; }
+    .aib-info-grid.about-vis { opacity: 1; transform: translateY(0); transition-delay: 0.55s; }
+    .aib-actions.about-vis { opacity: 1; transform: translateY(0); transition-delay: 0.6s; }
+    .aib-photo-frame.about-vis { opacity: 1; transform: scale(1) translateY(0); transition-delay: 0.05s; }
+    .aib-float-tag.about-vis { opacity: 1; transform: scale(1); }
+    .aib-float-tag.aib-ft-1.about-vis { transition-delay: 0.7s; }
+    .aib-float-tag.aib-ft-2.about-vis { transition-delay: 0.8s; }
+    .aib-float-tag.aib-ft-3.about-vis { transition-delay: 0.9s; }
+    .aib-float-tag.aib-ft-4.about-vis { transition-delay: 1.0s; }
+    .wid-card.about-vis { opacity: 1; transform: translateY(0) scale(1); }
+    .wid-card:nth-child(1).about-vis { transition-delay: 0.1s; }
+    .wid-card:nth-child(2).about-vis { transition-delay: 0.2s; }
+    .wid-card:nth-child(3).about-vis { transition-delay: 0.3s; }
+    .atl-card.about-vis { opacity: 1; transform: translateX(0); }
+    .atl-side--right .atl-card.about-vis { transform: translateX(0); }
+    .asp-bar-item.about-vis { opacity: 1; transform: translateX(0); }
+  `;
+  document.head.appendChild(aboutStyle);
+
+  const aboutObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('about-vis');
+        aboutObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.15, rootMargin: '0px 0px -30px 0px' });
+
+  // Stagger asp-bar-items
+  document.querySelectorAll('.asp-bar-item').forEach((el, i) => {
+    el.style.transitionDelay = `${i * 0.08}s`;
+  });
+
+  document.querySelectorAll([
+    '.aib-greeting', '.aib-name', '.aib-role-row', '.aib-bio',
+    '.aib-stat-strip', '.aib-info-grid', '.aib-actions',
+    '.aib-photo-frame', '.aib-float-tag',
+    '.wid-card', '.atl-card', '.asp-bar-item'
+  ].join(',')).forEach(el => aboutObserver.observe(el));
+})();
+
+
+/* ─────────────────────────────────────────────────────────────────
+   FIX 3: GALLERY — Fix lightbox and improve gallery grid
+   Makes the photo gallery properly clickable with smooth transitions
+───────────────────────────────────────────────────────────────── */
+(function fixGallery() {
+  // Wait for DOM to be ready
+  const init = () => {
+    const galleryModal = document.getElementById('galleryModal');
+    if (!galleryModal) {
+      console.warn('Gallery modal not found - trying to create one...');
+      createFallbackGallery();
+      return;
+    }
+
+    const modalImg = document.getElementById('gallery-modal-img');
+    const closeBtn = galleryModal.querySelector('.gallery-modal-close');
+    const prevBtn = galleryModal.querySelector('.gallery-modal-prev');
+    const nextBtn = galleryModal.querySelector('.gallery-modal-next');
+    const overlay = galleryModal.querySelector('.gallery-modal-overlay');
+    const currentEl = document.getElementById('gallery-current');
+    const totalEl = document.getElementById('gallery-total');
+
+    if (!modalImg) return;
+
+    const items = document.querySelectorAll('.gallery-item');
+    if (!items.length) return;
+
+    // Build image sources — handle missing images gracefully
+    const sources = Array.from(items).map(item => {
+      const img = item.querySelector('img');
+      return { src: img?.src || '', alt: img?.alt || 'Gallery Photo' };
+    });
+
+    if (totalEl) totalEl.textContent = sources.length;
+
+    let currentIndex = 0;
+
+    const openModal = (index) => {
+      currentIndex = index;
+      const { src, alt } = sources[currentIndex] || {};
+      modalImg.src = src || '';
+      modalImg.alt = alt || '';
+      if (currentEl) currentEl.textContent = currentIndex + 1;
+      galleryModal.style.display = 'flex';
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => galleryModal.classList.add('active'));
+      });
+      document.body.style.overflow = 'hidden';
+    };
+
+    const closeModal = () => {
+      galleryModal.classList.remove('active');
+      setTimeout(() => {
+        galleryModal.style.display = 'none';
+        modalImg.src = '';
+      }, 420);
+      document.body.style.overflow = '';
+    };
+
+    const navigate = (dir) => {
+      currentIndex = (currentIndex + dir + sources.length) % sources.length;
+      modalImg.style.opacity = '0';
+      modalImg.style.transform = dir > 0 ? 'translateX(30px)' : 'translateX(-30px)';
+      setTimeout(() => {
+        modalImg.src = sources[currentIndex]?.src || '';
+        modalImg.alt = sources[currentIndex]?.alt || '';
+        if (currentEl) currentEl.textContent = currentIndex + 1;
+        modalImg.style.opacity = '1';
+        modalImg.style.transform = 'translateX(0)';
+      }, 200);
+    };
+
+    // Set transition on modal img
+    modalImg.style.transition = 'opacity 0.2s ease, transform 0.25s ease';
+
+    // Click on gallery items
+    items.forEach((item, i) => {
+      item.style.cursor = 'pointer';
+      // Remove old listeners by cloning
+      const newItem = item.cloneNode(true);
+      item.parentNode.replaceChild(newItem, item);
+      newItem.addEventListener('click', () => openModal(i));
+    });
+
+    if (closeBtn) closeBtn.addEventListener('click', closeModal);
+    if (overlay) overlay.addEventListener('click', closeModal);
+    if (prevBtn) prevBtn.addEventListener('click', () => navigate(-1));
+    if (nextBtn) nextBtn.addEventListener('click', () => navigate(1));
+
+    // Keyboard navigation
+    document.addEventListener('keydown', (e) => {
+      if (!galleryModal.classList.contains('active')) return;
+      if (e.key === 'ArrowLeft') navigate(-1);
+      if (e.key === 'ArrowRight') navigate(1);
+      if (e.key === 'Escape') closeModal();
+    });
+
+    // Touch/swipe support
+    let touchStartX = 0;
+    galleryModal.addEventListener('touchstart', e => {
+      touchStartX = e.touches[0].clientX;
+    }, { passive: true });
+    galleryModal.addEventListener('touchend', e => {
+      const dx = e.changedTouches[0].clientX - touchStartX;
+      if (Math.abs(dx) > 50) navigate(dx < 0 ? 1 : -1);
+    }, { passive: true });
+
+    // Gallery scroll reveal (re-init for freshly cloned items)
+    const freshItems = document.querySelectorAll('.gallery-item');
+    const galObs = new IntersectionObserver((entries) => {
+      entries.forEach((entry, i) => {
+        if (entry.isIntersecting) {
+          setTimeout(() => entry.target.classList.add('gallery-visible'), i * 100);
+          galObs.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1 });
+    freshItems.forEach(item => {
+      item.classList.remove('gallery-visible');
+      galObs.observe(item);
+    });
+
+    console.log('✅ Gallery lightbox fixed & ready!');
+  };
+
+  // Fallback: if no galleryModal exists, create one inline
+  function createFallbackGallery() {
+    const items = document.querySelectorAll('.gallery-item');
+    if (!items.length) return;
+
+    // Create modal
+    const modal = document.createElement('div');
+    modal.id = 'galleryModal';
+    modal.style.cssText = `
+      display:none; position:fixed; inset:0; z-index:9999;
+      align-items:center; justify-content:center;
+      background:rgba(0,0,0,0.92); backdrop-filter:blur(8px);
+    `;
+    modal.innerHTML = `
+      <div class="gallery-modal-overlay" style="position:absolute;inset:0;"></div>
+      <button class="gallery-modal-close" style="position:absolute;top:20px;right:24px;background:rgba(234,88,12,0.15);border:1px solid rgba(234,88,12,0.4);color:#fff;width:44px;height:44px;border-radius:50%;font-size:22px;cursor:pointer;z-index:2;display:flex;align-items:center;justify-content:center;">✕</button>
+      <button class="gallery-modal-prev" style="position:absolute;left:20px;background:rgba(234,88,12,0.15);border:1px solid rgba(234,88,12,0.4);color:#fff;width:44px;height:44px;border-radius:50%;font-size:22px;cursor:pointer;z-index:2;display:flex;align-items:center;justify-content:center;">‹</button>
+      <button class="gallery-modal-next" style="position:absolute;right:20px;background:rgba(234,88,12,0.15);border:1px solid rgba(234,88,12,0.4);color:#fff;width:44px;height:44px;border-radius:50%;font-size:22px;cursor:pointer;z-index:2;display:flex;align-items:center;justify-content:center;">›</button>
+      <img id="gallery-modal-img" src="" alt="" style="max-width:90vw;max-height:85vh;object-fit:contain;border-radius:12px;box-shadow:0 0 60px rgba(234,88,12,0.3);z-index:1;transition:opacity 0.2s ease,transform 0.25s ease;">
+      <div style="position:absolute;bottom:20px;left:50%;transform:translateX(-50%);color:rgba(255,255,255,0.7);font-size:13px;">
+        <span id="gallery-current">1</span> / <span id="gallery-total">${items.length}</span>
+      </div>
+    `;
+    document.body.appendChild(modal);
+
+    // Add transition class
+    const modalStyle = document.createElement('style');
+    modalStyle.textContent = `
+      #galleryModal { transition: opacity 0.3s ease; }
+      #galleryModal.active { opacity: 1; }
+      #galleryModal:not(.active) { opacity: 0; }
+    `;
+    document.head.appendChild(modalStyle);
+
+    // Now init with the created modal
+    setTimeout(init, 100);
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+})();
+
+
+/* ─────────────────────────────────────────────────────────────────
+   FIX 4: MAP VISIBILITY IN ABOUT SECTION
+   Ensures the map iframe is properly visible and loads
+───────────────────────────────────────────────────────────────── */
+(function fixMapVisibility() {
+  const mapFix = document.createElement('style');
+  mapFix.textContent = `
+    /* Make sure map containers are visible */
+    .adv-map-section,
+    .map-container,
+    .map-wrapper,
+    [id*="map"],
+    .map-embed,
+    .about-map {
+      display: block !important;
+      visibility: visible !important;
+      opacity: 1 !important;
+      overflow: visible !important;
+    }
+    
+    /* Ensure map iframe renders */
+    .adv-map-section iframe,
+    .map-container iframe,
+    [id*="map"] iframe {
+      display: block !important;
+      visibility: visible !important;
+      width: 100% !important;
+      min-height: 350px !important;
+      border: none !important;
+      border-radius: 12px !important;
+    }
+
+    /* Fix map section if it was hidden */
+    .adv-map-section {
+      position: relative !important;
+      z-index: 1 !important;
+    }
+  `;
+  document.head.appendChild(mapFix);
+
+  // Animate the map section entrance
+  const mapSection = document.querySelector('.adv-map-section');
+  if (mapSection) {
+    mapSection.style.opacity = '0';
+    mapSection.style.transform = 'translateY(30px)';
+    mapSection.style.transition = 'opacity 0.8s ease, transform 0.8s cubic-bezier(0.23, 1, 0.32, 1)';
+
+    const mapObs = new IntersectionObserver(entries => {
+      if (entries[0].isIntersecting) {
+        mapSection.style.opacity = '1';
+        mapSection.style.transform = 'translateY(0)';
+        mapSection.classList.add('adv-map-visible');
+        mapObs.disconnect();
+      }
+    }, { threshold: 0.1 });
+    mapObs.observe(mapSection);
+  }
+
+  // Fix for the Google Maps iframe — ensure it's visible
+  const mapIframe = document.getElementById('advMapIframe');
+  if (mapIframe) {
+    mapIframe.style.display = 'block';
+    mapIframe.style.width = '100%';
+    mapIframe.style.minHeight = '350px';
+    mapIframe.setAttribute('loading', 'lazy');
+  }
+})();
+
+
+/* ─────────────────────────────────────────────────────────────────
+   FIX 5: SMOOTH SCROLL-DOWN ANIMATIONS
+   Beautiful staggered reveal for ALL sections when scrolling
+───────────────────────────────────────────────────────────────── */
+(function enhancedScrollAnimations() {
+  const css = document.createElement('style');
+  css.textContent = `
+    /* ── Universal Scroll Reveal System ── */
+    [data-reveal] {
+      opacity: 0;
+      will-change: opacity, transform;
+    }
+    [data-reveal="fade-up"] { transform: translateY(50px); }
+    [data-reveal="fade-left"] { transform: translateX(-50px); }
+    [data-reveal="fade-right"] { transform: translateX(50px); }
+    [data-reveal="fade-scale"] { transform: scale(0.88); }
+    [data-reveal="fade-rotate"] { transform: translateY(30px) rotate(-3deg); }
+
+    [data-reveal].is-revealed {
+      opacity: 1;
+      transform: none;
+      transition:
+        opacity 0.75s cubic-bezier(0.23, 1, 0.32, 1),
+        transform 0.75s cubic-bezier(0.23, 1, 0.32, 1);
+    }
+
+    /* Section headings pop */
+    .section-heading[data-reveal].is-revealed {
+      transition-duration: 0.9s;
+    }
+
+    /* Stagger delays for children */
+    [data-stagger] > * {
+      opacity: 0;
+      transform: translateY(35px);
+      transition: opacity 0.6s ease, transform 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+    }
+    [data-stagger].stagger-visible > *:nth-child(1) { opacity: 1; transform: none; transition-delay: 0.05s; }
+    [data-stagger].stagger-visible > *:nth-child(2) { opacity: 1; transform: none; transition-delay: 0.12s; }
+    [data-stagger].stagger-visible > *:nth-child(3) { opacity: 1; transform: none; transition-delay: 0.19s; }
+    [data-stagger].stagger-visible > *:nth-child(4) { opacity: 1; transform: none; transition-delay: 0.26s; }
+    [data-stagger].stagger-visible > *:nth-child(5) { opacity: 1; transform: none; transition-delay: 0.33s; }
+    [data-stagger].stagger-visible > *:nth-child(6) { opacity: 1; transform: none; transition-delay: 0.40s; }
+    [data-stagger].stagger-visible > *:nth-child(7) { opacity: 1; transform: none; transition-delay: 0.47s; }
+    [data-stagger].stagger-visible > *:nth-child(8) { opacity: 1; transform: none; transition-delay: 0.54s; }
+    [data-stagger].stagger-visible > *:nth-child(n+9) { opacity: 1; transform: none; transition-delay: 0.60s; }
+
+    /* Section title decoration line */
+    .section-heading::after {
+      content: '';
+      display: block;
+      width: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--main-color, #ea580c), transparent);
+      margin-top: 8px;
+      border-radius: 2px;
+      transition: width 1s cubic-bezier(0.23, 1, 0.32, 1) 0.4s;
+    }
+    .section-heading.is-revealed::after { width: 80px; }
+
+    /* Smooth section entrance — subtle parallax */
+    section {
+      overflow: clip;
+    }
+
+    /* Neon glow on cards when they enter */
+    .premium-card.is-revealed,
+    .ts-card.is-revealed,
+    .service-box.is-revealed {
+      box-shadow: 0 0 0 1px rgba(234, 88, 12, 0);
+      transition: box-shadow 0.6s ease 0.5s, opacity 0.75s ease, transform 0.75s ease;
+    }
+  `;
+  document.head.appendChild(css);
+
+  // Auto-assign data-reveal to key elements that don't have it yet
+  function assignReveal(selector, type, parent) {
+    const root = parent || document;
+    root.querySelectorAll(selector).forEach(el => {
+      if (!el.dataset.reveal) el.dataset.reveal = type;
+    });
+  }
+
+  assignReveal('.section-heading:not([data-reveal])', 'fade-up');
+  assignReveal('.about-section-label:not([data-reveal])', 'fade-up');
+  assignReveal('.about-section-sub:not([data-reveal])', 'fade-up');
+  assignReveal('.premium-card:not([data-reveal])', 'fade-up');
+  assignReveal('.ts-card:not([data-reveal])', 'fade-scale');
+  assignReveal('.service-box:not([data-reveal])', 'fade-up');
+  assignReveal('.gallery-section-header:not([data-reveal])', 'fade-up');
+  assignReveal('.gallery-title:not([data-reveal])', 'fade-up');
+  assignReveal('.contact-header:not([data-reveal])', 'fade-up');
+  assignReveal('.ft-col:not([data-reveal])', 'fade-up');
+
+  // Assign stagger to grids
+  document.querySelectorAll('.cert-grid:not([data-stagger]), .ts-grid:not([data-stagger]), .about-wid-grid:not([data-stagger])').forEach(el => {
+    el.dataset.stagger = 'true';
+  });
+
+  // Create the reveal observer
+  const revealObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        // Use delay from data attribute or default to 0
+        const delay = parseInt(entry.target.dataset.delay || '0');
+        setTimeout(() => {
+          entry.target.classList.add('is-revealed');
+        }, delay);
+        revealObserver.unobserve(entry.target);
+      }
+    });
+  }, {
+    threshold: 0.12,
+    rootMargin: '0px 0px -50px 0px'
+  });
+
+  // Observe all data-reveal elements
+  document.querySelectorAll('[data-reveal]').forEach(el => {
+    revealObserver.observe(el);
+  });
+
+  // Stagger observer
+  const staggerObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('stagger-visible');
+        staggerObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('[data-stagger]').forEach(el => {
+    staggerObserver.observe(el);
+  });
+
+  // Re-run observer for dynamically added elements
+  const mutationObs = new MutationObserver((mutations) => {
+    mutations.forEach(mutation => {
+      mutation.addedNodes.forEach(node => {
+        if (node.nodeType === 1) {
+          node.querySelectorAll?.('[data-reveal]:not(.is-revealed)').forEach(el => {
+            revealObserver.observe(el);
+          });
+        }
+      });
+    });
+  });
+  mutationObs.observe(document.body, { childList: true, subtree: true });
+
+  console.log('✨ Enhanced scroll animations initialized!');
+})();
+
+
+/* ─────────────────────────────────────────────────────────────────
+   FIX 6: SMOOTH SCROLL BEHAVIOR FOR ALL ANCHOR LINKS
+   Fixes abrupt jumping when clicking nav links
+───────────────────────────────────────────────────────────────── */
+(function fixSmoothScroll() {
+  // Override all anchor links with smooth scroll
+  document.addEventListener('click', (e) => {
+    const link = e.target.closest('a[href^="#"]');
+    if (!link) return;
+
+    const href = link.getAttribute('href');
+    if (!href || href === '#') return;
+
+    const target = document.querySelector(href);
+    if (!target) return;
+
+    e.preventDefault();
+    const headerH = document.querySelector('.header')?.offsetHeight || 80;
+    const top = target.getBoundingClientRect().top + window.scrollY - headerH - 20;
+
+    window.scrollTo({
+      top: Math.max(0, top),
+      behavior: 'smooth'
+    });
+  }, true);
+})();
+
+
+/* ─────────────────────────────────────────────────────────────────
+   FIX 7: OFFLINE MODE + AUTO-REFRESH WHEN INTERNET RETURNS
+───────────────────────────────────────────────────────────────── */
+(function initOfflineMode() {
+  // Create offline banner HTML
+  const banner = document.createElement('div');
+  banner.id = 'offline-banner';
+  banner.innerHTML = `
+    <div class="offline-inner">
+      <div class="offline-icon-wrap">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="1" y1="1" x2="23" y2="23"/>
+          <path d="M16.72 11.06A10.94 10.94 0 0 1 19 12.55"/>
+          <path d="M5 12.55a10.94 10.94 0 0 1 5.17-2.39"/>
+          <path d="M10.71 5.05A16 16 0 0 1 22.56 9"/>
+          <path d="M1.42 9a15.91 15.91 0 0 1 4.7-2.88"/>
+          <path d="M8.53 16.11a6 6 0 0 1 6.95 0"/>
+          <line x1="12" y1="20" x2="12.01" y2="20"/>
+        </svg>
+      </div>
+      <div class="offline-text-wrap">
+        <strong>You're offline</strong>
+        <span>Some features may not work. Waiting for connection...</span>
+      </div>
+      <div class="offline-pulse-dots">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+  `;
+
+  // Create reconnecting banner
+  const reconnectBanner = document.createElement('div');
+  reconnectBanner.id = 'reconnect-banner';
+  reconnectBanner.innerHTML = `
+    <div class="offline-inner">
+      <div class="offline-icon-wrap" style="color:#22c55e;">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <polyline points="20 6 9 17 4 12"/>
+        </svg>
+      </div>
+      <div class="offline-text-wrap">
+        <strong>You're back online!</strong>
+        <span id="reconnect-countdown">Refreshing in 3s...</span>
+      </div>
+    </div>
+  `;
+
+  // Inject styles
+  const offlineStyles = document.createElement('style');
+  offlineStyles.textContent = `
+    #offline-banner,
+    #reconnect-banner {
+      position: fixed;
+      bottom: -100px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 99999;
+      min-width: 320px;
+      max-width: 90vw;
+      border-radius: 16px;
+      padding: 14px 20px;
+      display: flex;
+      align-items: center;
+      font-family: 'Poppins', sans-serif;
+      box-shadow: 0 8px 40px rgba(0,0,0,0.5), 0 0 0 1px rgba(234,88,12,0.2);
+      transition: bottom 0.5s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.4s ease;
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    #offline-banner {
+      background: linear-gradient(135deg, #1a0a00 0%, #2d1500 100%);
+      border: 1px solid rgba(234, 88, 12, 0.4);
+    }
+
+    #reconnect-banner {
+      background: linear-gradient(135deg, #001a0a 0%, #002d15 100%);
+      border: 1px solid rgba(34, 197, 94, 0.4);
+    }
+
+    #offline-banner.show,
+    #reconnect-banner.show {
+      bottom: 30px;
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .offline-inner {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      width: 100%;
+    }
+
+    .offline-icon-wrap {
+      color: #ea580c;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      animation: offline-icon-pulse 1.5s ease-in-out infinite;
+    }
+
+    @keyframes offline-icon-pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
+    }
+
+    .offline-text-wrap {
+      flex: 1;
+    }
+
+    .offline-text-wrap strong {
+      display: block;
+      color: #fff;
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    .offline-text-wrap span {
+      display: block;
+      color: rgba(255,255,255,0.6);
+      font-size: 12px;
+      margin-top: 2px;
+    }
+
+    .offline-pulse-dots {
+      display: flex;
+      gap: 5px;
+      align-items: center;
+      flex-shrink: 0;
+    }
+
+    .offline-pulse-dots span {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: rgba(234, 88, 12, 0.6);
+      animation: dot-bounce 1.2s ease-in-out infinite;
+    }
+
+    .offline-pulse-dots span:nth-child(2) { animation-delay: 0.2s; }
+    .offline-pulse-dots span:nth-child(3) { animation-delay: 0.4s; }
+
+    @keyframes dot-bounce {
+      0%, 100% { transform: translateY(0); opacity: 0.4; }
+      50% { transform: translateY(-5px); opacity: 1; }
+    }
+
+    /* Dim the page slightly when offline */
+    body.is-offline::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.15);
+      z-index: 9990;
+      pointer-events: none;
+      animation: offline-fade-in 0.5s ease forwards;
+    }
+
+    @keyframes offline-fade-in {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    /* Offline indicator in header */
+    .offline-header-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #ef4444;
+      box-shadow: 0 0 8px rgba(239, 68, 68, 0.8);
+      animation: offline-icon-pulse 1.5s ease-in-out infinite;
+      display: inline-block;
+      margin-left: 8px;
+      vertical-align: middle;
+    }
+  `;
+  document.head.appendChild(offlineStyles);
+  document.body.appendChild(banner);
+  document.body.appendChild(reconnectBanner);
+
+  let wasOffline = false;
+  let reconnectTimer = null;
+  let countdownInterval = null;
+
+  const showBanner = (el) => {
+    el.classList.add('show');
+  };
+
+  const hideBanner = (el) => {
+    el.classList.remove('show');
+  };
+
+  const handleOffline = () => {
+    wasOffline = true;
+    document.body.classList.add('is-offline');
+    hideBanner(reconnectBanner);
+    showBanner(banner);
+
+    // Add dot to header logo
+    const logo = document.querySelector('.logo');
+    if (logo && !logo.querySelector('.offline-header-dot')) {
+      const dot = document.createElement('span');
+      dot.className = 'offline-header-dot';
+      dot.title = 'Offline';
+      logo.appendChild(dot);
+    }
+
+    console.warn('🔴 Portfolio is OFFLINE');
+  };
+
+  const handleOnline = () => {
+    if (!wasOffline) return;
+
+    document.body.classList.remove('is-offline');
+    hideBanner(banner);
+
+    // Remove header dot
+    document.querySelector('.offline-header-dot')?.remove();
+
+    // Show reconnect banner with countdown
+    showBanner(reconnectBanner);
+
+    let countdown = 3;
+    const countdownEl = document.getElementById('reconnect-countdown');
+
+    countdownInterval = setInterval(() => {
+      countdown--;
+      if (countdownEl) countdownEl.textContent = `Refreshing in ${countdown}s...`;
+      if (countdown <= 0) {
+        clearInterval(countdownInterval);
+        window.location.reload();
+      }
+    }, 1000);
+
+    console.log('🟢 Back online! Refreshing in 3 seconds...');
+  };
+
+  // Listen for network events
+  window.addEventListener('offline', handleOffline);
+  window.addEventListener('online', handleOnline);
+
+  // Check initial state
+  if (!navigator.onLine) {
+    handleOffline();
+  }
+
+  // Periodic connectivity check (ping a small resource)
+  let checkInterval = null;
+
+  const checkConnectivity = async () => {
+    if (navigator.onLine && wasOffline) {
+      // Double-check with a real fetch
+      try {
+        const ctrl = new AbortController();
+        const timeout = setTimeout(() => ctrl.abort(), 3000);
+        await fetch('https://www.google.com/favicon.ico', {
+          mode: 'no-cors',
+          signal: ctrl.signal,
+          cache: 'no-store'
+        });
+        clearTimeout(timeout);
+        handleOnline();
+        clearInterval(checkInterval);
+      } catch (_) {
+        // Still offline
+      }
+    }
+  };
+
+  window.addEventListener('offline', () => {
+    // When offline, start periodic check
+    checkInterval = setInterval(checkConnectivity, 5000);
+  });
+
+  window.addEventListener('online', () => {
+    clearInterval(checkInterval);
+  });
+
+  console.log('📡 Offline mode monitor initialized!');
+})();
+
+
+/* ─────────────────────────────────────────────────────────────────
+   FIX 8: ALL SECTIONS VISIBLE — Fix hidden section bugs
+───────────────────────────────────────────────────────────────── */
+(function fixSectionVisibility() {
+  const sectionFix = document.createElement('style');
+  sectionFix.textContent = `
+    /* Ensure all sections are properly visible */
+    section,
+    .home,
+    .about-resume,
+    .certificates,
+    .tech-skills,
+    .services,
+    .projects,
+    .creative-samples,
+    .testimonials,
+    .contact,
+    footer {
+      position: relative;
+      overflow: visible;
+    }
+
+    /* Fix for sections that might have been hidden */
+    .photo-gallery-section {
+      display: block !important;
+      visibility: visible !important;
+    }
+
+    /* Ensure orbit icons show */
+    .orbit-icons i {
+      opacity: 1 !important;
+    }
+
+    /* Fix scroll progress bar */
+    #scroll-progress-bar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 3px;
+      background: linear-gradient(90deg, #ea580c, #ff9f1c);
+      z-index: 99999;
+      width: 0%;
+      transition: width 0.1s linear;
+      box-shadow: 0 0 8px rgba(234, 88, 12, 0.6);
+    }
+
+    /* Fix floating hire button */
+    #floating-hire {
+      display: flex;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.4s ease, transform 0.4s ease;
+      transform: translateY(10px);
+    }
+    #floating-hire.show {
+      opacity: 1;
+      pointer-events: auto;
+      transform: translateY(0);
+    }
+  `;
+  document.head.appendChild(sectionFix);
+})();
+
+
+/* ─────────────────────────────────────────────────────────────────
+   FIX 9: HEADER ACTIVE STATE AND SMOOTH BEHAVIOR
+───────────────────────────────────────────────────────────────── */
+(function fixHeaderBehavior() {
+  const header = document.querySelector('.header');
+  if (!header) return;
+
+  const handleScroll = () => {
+    if (window.scrollY > 60) {
+      header.classList.add('scrolled');
+    } else {
+      header.classList.remove('scrolled');
+    }
+  };
+
+  window.addEventListener('scroll', handleScroll, { passive: true });
+  handleScroll(); // run once on load
+
+  const headerScrollStyle = document.createElement('style');
+  headerScrollStyle.textContent = `
+    .header.scrolled {
+      padding: 1rem 8% !important;
+      background: rgba(8, 8, 8, 0.92) !important;
+      box-shadow: 0 2px 30px rgba(234, 88, 12, 0.2) !important;
+    }
+    .navbar a.active-nav {
+      color: var(--main-color, #ea580c) !important;
+    }
+    .navbar a.active-nav::after {
+      width: 100% !important;
+    }
+  `;
+  document.head.appendChild(headerScrollStyle);
+})();
+
+
+/* ─────────────────────────────────────────────────────────────────
+   INIT LOG
+───────────────────────────────────────────────────────────────── */
+console.log('🚀 JVOR DEV — All fixes applied!');
+console.log('  ✅ Typewriter fixed');
+console.log('  ✅ About animations fixed');
+console.log('  ✅ Gallery lightbox fixed');
+console.log('  ✅ Map visibility fixed');
+console.log('  ✅ Scroll animations enhanced');
+console.log('  ✅ Smooth scroll fixed');
+console.log('  ✅ Offline mode + auto-refresh active');
+console.log('  ✅ All sections visible');
+
+// ═══════════════════════════════════════════════════════════════════
+//  JVOR DEV — MASTER FIX v4.0
+//  Fixes: Contact Form, Testimonial Form, Graphs, Icons, All Features
+// ═══════════════════════════════════════════════════════════════════
+
+(function jvorMasterFix() {
+  'use strict';
+
+  // ─── WAIT FOR DOM ───────────────────────────────────────────────
+  function ready(fn) {
+    if (document.readyState !== 'loading') fn();
+    else document.addEventListener('DOMContentLoaded', fn);
+  }
+
+  // ─── UNIVERSAL TOAST ────────────────────────────────────────────
+  function showToast(msg, type = 'success', duration = 4000) {
+    let toast = document.getElementById('jvor-master-toast');
+    if (!toast) {
+      toast = document.createElement('div');
+      toast.id = 'jvor-master-toast';
+      toast.style.cssText = `
+        position:fixed; bottom:32px; left:50%; transform:translateX(-50%) translateY(100px);
+        padding:14px 28px; border-radius:50px; color:#fff; font-size:1.5rem; font-weight:600;
+        display:flex; align-items:center; gap:10px; z-index:999998;
+        box-shadow:0 8px 40px rgba(0,0,0,0.5);
+        transition:transform 0.5s cubic-bezier(0.34,1.56,.64,1), opacity 0.4s ease; opacity:0;
+        font-family:'Poppins',sans-serif; pointer-events:none;
+        max-width:90vw; text-align:center;
+      `;
+      document.body.appendChild(toast);
+    }
+    const colors = {
+      success: 'linear-gradient(135deg,#22c55e,#16a34a)',
+      error: 'linear-gradient(135deg,#ef4444,#dc2626)',
+      info: 'linear-gradient(135deg,#ea580c,#c2410c)'
+    };
+    const icons = { success: 'bx-check-circle', error: 'bx-error-circle', info: 'bx-info-circle' };
+    toast.style.background = colors[type] || colors.info;
+    toast.innerHTML = `<i class='bx ${icons[type] || icons.info}' style="font-size:2rem"></i> ${msg}`;
+    requestAnimationFrame(() => {
+      toast.style.transform = 'translateX(-50%) translateY(0)';
+      toast.style.opacity = '1';
+    });
+    clearTimeout(toast._timer);
+    toast._timer = setTimeout(() => {
+      toast.style.transform = 'translateX(-50%) translateY(100px)';
+      toast.style.opacity = '0';
+    }, duration);
+  }
+
+  // ─── INITIALS AVATAR GENERATOR ──────────────────────────────────
+  function genAvatar(name) {
+    const initials = (name || 'U').trim().split(' ').map(w => w[0]).slice(0, 2).join('').toUpperCase();
+    let hash = 0;
+    for (let i = 0; i < (name || 'U').length; i++) hash = (name || 'U').charCodeAt(i) + ((hash << 5) - hash);
+    const hue = Math.abs(hash) % 360;
+    const canvas = document.createElement('canvas');
+    canvas.width = canvas.height = 80;
+    const ctx = canvas.getContext('2d');
+    ctx.fillStyle = `hsl(${hue},55%,38%)`;
+    ctx.beginPath(); ctx.arc(40, 40, 40, 0, Math.PI * 2); ctx.fill();
+    ctx.strokeStyle = `hsl(${hue},55%,62%)`; ctx.lineWidth = 2.5;
+    ctx.beginPath(); ctx.arc(40, 40, 36, 0, Math.PI * 2); ctx.stroke();
+    ctx.fillStyle = '#fff';
+    ctx.font = `bold ${initials.length > 1 ? 26 : 30}px Arial,sans-serif`;
+    ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+    ctx.fillText(initials, 40, 41);
+    return canvas.toDataURL();
+  }
+
+  ready(function () {
+
+    // ═══════════════════════════════════════════════════
+    //  FIX 1: TESTIMONIAL / REVIEW FORM — FIREBASE v10
+    // ═══════════════════════════════════════════════════
+    (async function fixReviewForm() {
+      const form = document.getElementById('reviewForm');
+      if (!form) return;
+
+      // Prevent duplicate submit listeners
+      if (form.dataset.jvorFixed) return;
+      form.dataset.jvorFixed = '1';
+
+      // Load Firebase lazily
+      let db;
+      try {
+        const { initializeApp, getApps } = await import('https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js');
+        const { getFirestore, collection, addDoc, serverTimestamp } = await import('https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js');
+
+        const cfg = {
+          apiKey: "AIzaSyC6CN0FDn2lhS6QCflxFWpFFw7AS24WWWs",
+          authDomain: "portpolio-jvor.firebaseapp.com",
+          projectId: "portpolio-jvor",
+          storageBucket: "portpolio-jvor.firebasestorage.app",
+          messagingSenderId: "764831263383",
+          appId: "1:764831263383:web:e9103eb423db244f5297d2"
+        };
+        const app = getApps().length ? getApps()[0] : initializeApp(cfg);
+        db = getFirestore(app);
+        console.log('✅ Firestore connected for review form');
+      } catch (e) {
+        console.warn('Firestore not available, reviews will show locally only:', e.message);
+      }
+
+      // Star picker fix
+      const starBtns = form.querySelectorAll('.tr-star-btn');
+      const ratingInput = document.getElementById('selectedRating');
+      const starHint = document.getElementById('trStarHint');
+      const hintMap = { 1: 'Poor', 2: 'Fair — could be better', 3: 'Good work!', 4: 'Very good!', 5: 'Excellent — highly recommend! ⭐' };
+      let selectedStars = 0;
+
+      starBtns.forEach((btn, idx) => {
+        btn.addEventListener('mouseenter', () => {
+          starBtns.forEach((b, i) => b.classList.toggle('lit', i <= idx));
+          if (starHint) starHint.textContent = hintMap[idx + 1] || '';
+        });
+        btn.addEventListener('mouseleave', () => {
+          starBtns.forEach((b, i) => b.classList.toggle('lit', i < selectedStars));
+          if (starHint) starHint.textContent = selectedStars ? hintMap[selectedStars] : 'Click to rate your experience';
+        });
+        btn.addEventListener('click', () => {
+          selectedStars = idx + 1;
+          if (ratingInput) ratingInput.value = selectedStars;
+          starBtns.forEach((b, i) => b.classList.toggle('lit', i < selectedStars));
+          if (starHint) starHint.textContent = hintMap[selectedStars];
+        });
+      });
+
+      // Submit handler
+      form.addEventListener('submit', async function (e) {
+        e.preventDefault();
+        e.stopImmediatePropagation();
+
+        const name = (document.getElementById('reviewerName')?.value || '').trim();
+        const email = (document.getElementById('reviewerEmail')?.value || '').trim();
+        const company = (document.getElementById('reviewerCompany')?.value || '').trim();
+        const text = (document.getElementById('reviewText')?.value || '').trim();
+        const rating = parseInt(document.getElementById('selectedRating')?.value || '0');
+        const category = document.getElementById('reviewerCategory')?.value || 'other';
+
+        // Validation
+        if (!name) { showToast('Pakiusap ilagay ang iyong pangalan! 😊', 'error'); return; }
+        if (!email) { showToast('Pakiusap ilagay ang iyong email! 📧', 'error'); return; }
+        if (!text) { showToast('Pakiusap isulat ang iyong review! 📝', 'error'); return; }
+        if (rating < 1) { showToast('Pumili ng star rating bago mag-submit! ⭐', 'error'); return; }
+
+        // Button loading state
+        const btn = document.getElementById('trSubmitBtn');
+        const btnContent = btn?.querySelector('.tr-submit-content');
+        const btnLoading = btn?.querySelector('.tr-submit-loading');
+        if (btn) { btn.disabled = true; }
+        if (btnContent) btnContent.style.display = 'none';
+        if (btnLoading) btnLoading.style.display = 'flex';
+
+        const now = new Date();
+        const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+        const dateStr = `${months[now.getMonth()]} ${now.getFullYear()}`;
+        const avatarData = genAvatar(name);
+
+        const reviewData = { name, email, company, text, rating, category, date: dateStr, avatar: avatarData };
+
+        // Try save to Firestore
+        if (db) {
+          try {
+            const { collection, addDoc, serverTimestamp } = await import('https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js');
+            await addDoc(collection(db, 'reviews'), { ...reviewData, timestamp: serverTimestamp() });
+            console.log('✅ Review saved to Firestore!');
+          } catch (err) {
+            console.warn('Could not save to Firestore:', err.message);
+          }
+        }
+
+        // Build and inject card
+        const starsHtml = Array.from({ length: 5 }, (_, i) => `<i class='bx bxs-star' style="color:${i < rating ? '#ea580c' : 'rgba(255,255,255,0.15)'}"></i>`).join('');
+        const cardHtml = `
+          <div class="tr-card" data-category="${category}" style="animation:cardFadeIn 0.6s ease forwards">
+            <div class="tr-card-header">
+              <div class="tr-card-avatar-wrap">
+                <img src="${avatarData}" alt="${name}" class="tr-card-avatar">
+                <span class="tr-card-verified"><i class='bx bxs-badge-check'></i></span>
+              </div>
+              <div class="tr-card-author-info">
+                <h4>${name}</h4>
+                <span class="tr-card-position">${company || 'Client'}</span>
+                <span class="tr-card-company">✅ Verified Review</span>
+              </div>
+              <div class="tr-card-stars">${starsHtml}</div>
+            </div>
+            <div class="tr-card-body">
+              <span class="tr-card-open-quote">❝</span>
+              <p>"${text}"</p>
+            </div>
+            <div class="tr-card-footer">
+              <span class="tr-card-type"><i class='bx bx-briefcase'></i> ${category}</span>
+              <span class="tr-card-when">${dateStr}</span>
+            </div>
+          </div>`;
+
+        const grid = document.getElementById('testiGrid');
+        if (grid) {
+          grid.insertAdjacentHTML('beforeend', cardHtml);
+          // Re-apply active filter
+          const activeFilter = document.querySelector('.tr-filter.active');
+          if (activeFilter && activeFilter.dataset.cat !== 'all') {
+            grid.querySelectorAll('.tr-card').forEach(c => {
+              c.classList.toggle('hidden', c.dataset.category !== activeFilter.dataset.cat);
+            });
+          }
+          // Scroll to new card
+          setTimeout(() => {
+            grid.lastElementChild?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+          }, 400);
+        }
+
+        showToast(`Salamat, ${name}! Na-post na ang iyong review! 🎉`, 'success');
+
+        // Reset form
+        form.reset();
+        selectedStars = 0;
+        if (ratingInput) ratingInput.value = '0';
+        starBtns.forEach(b => b.classList.remove('lit'));
+        if (starHint) starHint.textContent = 'Click to rate your experience';
+        if (btn) btn.disabled = false;
+        if (btnContent) btnContent.style.display = 'flex';
+        if (btnLoading) btnLoading.style.display = 'none';
+      });
+
+      // Load existing reviews from Firestore
+      if (db) {
+        try {
+          const { collection, getDocs, query, orderBy } = await import('https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js');
+          const q = query(collection(db, 'reviews'), orderBy('timestamp', 'asc'));
+          const snapshot = await getDocs(q);
+          const grid = document.getElementById('testiGrid');
+          if (grid && snapshot.size > 0) {
+            snapshot.forEach(doc => {
+              const r = { id: doc.id, ...doc.data() };
+              const name = r.name || 'Anonymous';
+              const starsHtml = Array.from({ length: 5 }, (_, i) => `<i class='bx bxs-star' style="color:${i < (r.rating || 5) ? '#ea580c' : 'rgba(255,255,255,0.15)'}"></i>`).join('');
+              const avatarSrc = (r.avatar && r.avatar.startsWith('data:')) ? r.avatar : genAvatar(name);
+              const cardHtml = `
+                <div class="tr-card" data-category="${r.category || 'other'}">
+                  <div class="tr-card-header">
+                    <div class="tr-card-avatar-wrap">
+                      <img src="${avatarSrc}" alt="${name}" class="tr-card-avatar">
+                      <span class="tr-card-verified"><i class='bx bxs-badge-check'></i></span>
+                    </div>
+                    <div class="tr-card-author-info">
+                      <h4>${name}</h4>
+                      <span class="tr-card-position">${r.company || r.role || 'Client'}</span>
+                      <span class="tr-card-company">✅ Verified Review</span>
+                    </div>
+                    <div class="tr-card-stars">${starsHtml}</div>
+                  </div>
+                  <div class="tr-card-body">
+                    <span class="tr-card-open-quote">❝</span>
+                    <p>"${r.text || ''}"</p>
+                  </div>
+                  <div class="tr-card-footer">
+                    <span class="tr-card-type"><i class='bx bx-briefcase'></i> ${r.category || 'other'}</span>
+                    <span class="tr-card-when">${r.date || ''}</span>
+                  </div>
+                </div>`;
+              grid.insertAdjacentHTML('beforeend', cardHtml);
+            });
+            console.log(`✅ Loaded ${snapshot.size} reviews from Firestore`);
+          }
+        } catch (err) {
+          console.warn('Could not load Firestore reviews:', err.message);
+        }
+      }
+    })();
+
+    // ═══════════════════════════════════════════════════
+    //  FIX 2: CONTACT FORM — EMAILJS (SINGLE HANDLER)
+    // ═══════════════════════════════════════════════════
+    (function fixContactForm() {
+      const form = document.getElementById('contactForm');
+      const submitBtn = document.getElementById('submitBtn');
+      if (!form || form.dataset.contactFixed) return;
+      form.dataset.contactFixed = '1';
+
+      const EMAILJS_PK = '_gHT9V4PLtdDkYzou';
+      const SERVICE_ID = 'service_mpv0lec';
+      const TEMPLATE_ID = 'template_rpzjy36';
+
+      function getField(id) { return document.getElementById(id); }
+      const nameEl = getField('cf-name');
+      const emailEl = getField('cf-email');
+      const subjectEl = getField('cf-subject');
+      const msgEl = getField('cf-message');
+
+      function isValidEmail(v) { return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v); }
+
+      function setFieldState(el, valid) {
+        const group = el?.closest('.ct-form-group');
+        if (!group) return;
+        group.classList.toggle('has-error', !valid);
+        group.classList.toggle('is-valid', valid);
+        const err = group.querySelector('.ct-field-error');
+        if (err) err.classList.toggle('visible', !valid);
+      }
+
+      function validateForm() {
+        let ok = true;
+        if (!nameEl?.value.trim()) { setFieldState(nameEl, false); ok = false; } else setFieldState(nameEl, true);
+        if (!isValidEmail(emailEl?.value || '')) { setFieldState(emailEl, false); ok = false; } else setFieldState(emailEl, true);
+        if (!subjectEl?.value.trim()) { setFieldState(subjectEl, false); ok = false; } else setFieldState(subjectEl, true);
+        if (!msgEl?.value.trim()) { setFieldState(msgEl, false); ok = false; } else setFieldState(msgEl, true);
+        return ok;
+      }
+
+      // Real-time validation
+      [nameEl, emailEl, subjectEl, msgEl].forEach(el => {
+        if (!el) return;
+        el.addEventListener('input', () => {
+          const key = el === emailEl ? 'email' : 'other';
+          const valid = key === 'email' ? isValidEmail(el.value) : !!el.value.trim();
+          setFieldState(el, valid);
+        });
+      });
+
+      // Character counter
+      const charCountEl = document.getElementById('ctCharCount');
+      msgEl?.addEventListener('input', () => {
+        const len = msgEl.value.length;
+        if (charCountEl) {
+          charCountEl.textContent = len;
+          charCountEl.style.color = len > 900 ? '#ef4444' : len > 700 ? '#f59e0b' : '';
+        }
+        if (len > 1000) msgEl.value = msgEl.value.slice(0, 1000);
+      });
+
+      // Quick select buttons
+      document.querySelectorAll('.ct-qs-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          document.querySelectorAll('.ct-qs-btn').forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          if (subjectEl) { subjectEl.value = btn.dataset.subject; subjectEl.focus(); }
+        });
+      });
+
+      function setButtonState(state) {
+        const def = submitBtn?.querySelector('.ct-submit-default');
+        const send = submitBtn?.querySelector('.ct-submit-sending');
+        const done = submitBtn?.querySelector('.ct-submit-done');
+        if (!def) return;
+        def.style.display = state === 'default' ? 'flex' : 'none';
+        if (send) send.style.display = state === 'sending' ? 'flex' : 'none';
+        if (done) done.style.display = state === 'done' ? 'flex' : 'none';
+      }
+
+      function showContactToast(success) {
+        const id = success ? 'ct-success-toast' : 'ct-error-toast';
+        const t = document.getElementById(id);
+        if (!t) return;
+        t.classList.add('show');
+        setTimeout(() => t.classList.remove('show'), 5000);
+      }
+
+      // Load EmailJS SDK
+      const ejsScript = document.createElement('script');
+      ejsScript.src = 'https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js';
+      ejsScript.onload = () => {
+        window.emailjs?.init(EMAILJS_PK);
+        console.log('✅ EmailJS ready');
+
+        form.addEventListener('submit', async function (e) {
+          e.preventDefault();
+          e.stopImmediatePropagation();
+
+          if (form.querySelector('[name="ct_honeypot"]')?.value) return;
+          if (!validateForm()) { showToast('Pakiusap kumpletuhin ang form! 📝', 'error'); return; }
+
+          setButtonState('sending');
+          if (submitBtn) submitBtn.disabled = true;
+
+          try {
+            await window.emailjs.sendForm(SERVICE_ID, TEMPLATE_ID, form);
+            showContactToast(true);
+            showToast('Message sent! Makikipag-ugnayan ako sa iyo agad! 🎉', 'success');
+            form.reset();
+            if (charCountEl) charCountEl.textContent = '0';
+            document.querySelectorAll('.ct-qs-btn').forEach(b => b.classList.remove('active'));
+            [nameEl, emailEl, subjectEl, msgEl].forEach(el => {
+              el?.closest('.ct-form-group')?.classList.remove('is-valid', 'has-error');
+            });
+            setButtonState('done');
+            setTimeout(() => setButtonState('default'), 4000);
+          } catch (err) {
+            console.error('EmailJS error:', err);
+            showContactToast(false);
+            showToast('May error. Subukan ulit o mag-email direkta! 😢', 'error');
+            setButtonState('default');
+          } finally {
+            if (submitBtn) submitBtn.disabled = false;
+          }
+        });
+      };
+      ejsScript.onerror = () => console.error('Could not load EmailJS');
+      document.head.appendChild(ejsScript);
+
+      // Toast close buttons
+      document.getElementById('ctToastClose')?.addEventListener('click', () => {
+        document.getElementById('ct-success-toast')?.classList.remove('show');
+      });
+      document.getElementById('ctErrToastClose')?.addEventListener('click', () => {
+        document.getElementById('ct-error-toast')?.classList.remove('show');
+      });
+
+      // Live PHT clock
+      function updateCtClock() {
+        const el = document.getElementById('ctClockText');
+        if (!el) return;
+        const now = new Date();
+        const pht = new Date(now.toLocaleString('en-US', { timeZone: 'Asia/Manila' }));
+        el.textContent = `${String(pht.getHours()).padStart(2, '0')}:${String(pht.getMinutes()).padStart(2, '0')}:${String(pht.getSeconds()).padStart(2, '0')}`;
+      }
+      updateCtClock();
+      setInterval(updateCtClock, 1000);
+
+      // Copy email button
+      document.querySelectorAll('.ct-copy-btn').forEach(btn => {
+        btn.addEventListener('click', async () => {
+          try {
+            await navigator.clipboard.writeText(btn.dataset.copy || 'jvrocta@gmail.com');
+            const icon = btn.querySelector('i');
+            const orig = icon?.className;
+            if (icon) icon.className = 'bx bx-check';
+            btn.classList.add('copied');
+            setTimeout(() => {
+              if (icon && orig) icon.className = orig;
+              btn.classList.remove('copied');
+            }, 2000);
+            showToast('Email copied! 📋', 'success', 2000);
+          } catch (_) { }
+        });
+      });
+    })();
+
+    // ═══════════════════════════════════════════════════
+    //  FIX 3: RADAR CHART — stop infinite loop
+    // ═══════════════════════════════════════════════════
+    (function fixRadarChart() {
+      const canvas = document.getElementById('radarChart');
+      if (!canvas || canvas.dataset.radarFixed) return;
+      canvas.dataset.radarFixed = '1';
+
+      const ctx = canvas.getContext('2d');
+      const skills = [
+        { label: 'HTML/CSS', value: 0.95 },
+        { label: 'JavaScript', value: 0.85 },
+        { label: 'UI/UX', value: 0.88 },
+        { label: 'React', value: 0.78 },
+        { label: 'Node.js', value: 0.70 },
+        { label: 'Video', value: 0.90 },
+      ];
+
+      const cx = canvas.width / 2;
+      const cy = canvas.height / 2;
+      const maxR = Math.min(cx, cy) - 55;
+      const total = skills.length;
+      const levels = 5;
+      let animProg = 0;
+      let hovered = -1;
+      let rafId = null;
+      let isFullyAnimated = false;
+
+      function angleFor(i) { return (Math.PI * 2 * i / total) - Math.PI / 2; }
+      function pt(i, r) {
+        const a = angleFor(i);
+        return { x: cx + r * Math.cos(a), y: cy + r * Math.sin(a) };
+      }
+
+      function draw(progress) {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        const isDark = !document.body.classList.contains('light-mode');
+        const gridC = isDark ? 'rgba(234,88,12,0.12)' : 'rgba(234,88,12,0.2)';
+        const webC = isDark ? 'rgba(16,16,16,0.6)' : 'rgba(240,240,240,0.6)';
+        const lineC = isDark ? 'rgba(234,88,12,0.2)' : 'rgba(234,88,12,0.3)';
+        const lblC = isDark ? '#e5e7eb' : '#333';
+
+        // Level rings
+        for (let l = 1; l <= levels; l++) {
+          const r = (l / levels) * maxR;
+          ctx.beginPath();
+          for (let i = 0; i < total; i++) {
+            const p = pt(i, r);
+            i === 0 ? ctx.moveTo(p.x, p.y) : ctx.lineTo(p.x, p.y);
+          }
+          ctx.closePath();
+          ctx.strokeStyle = gridC; ctx.lineWidth = 1; ctx.stroke();
+          ctx.fillStyle = webC; ctx.fill();
+        }
+
+        // Axis lines
+        for (let i = 0; i < total; i++) {
+          const p = pt(i, maxR);
+          ctx.beginPath(); ctx.moveTo(cx, cy); ctx.lineTo(p.x, p.y);
+          ctx.strokeStyle = lineC; ctx.lineWidth = 1; ctx.stroke();
+        }
+
+        // Skill polygon
+        ctx.beginPath();
+        for (let i = 0; i < total; i++) {
+          const animR = skills[i].value * maxR * Math.min(progress * 1.4, 1);
+          const p = pt(i, animR);
+          i === 0 ? ctx.moveTo(p.x, p.y) : ctx.lineTo(p.x, p.y);
+        }
+        ctx.closePath();
+        const grad = ctx.createRadialGradient(cx, cy, 0, cx, cy, maxR);
+        grad.addColorStop(0, 'rgba(234,88,12,0.4)');
+        grad.addColorStop(1, 'rgba(234,88,12,0.08)');
+        ctx.fillStyle = grad; ctx.fill();
+        ctx.strokeStyle = 'rgba(234,88,12,0.9)'; ctx.lineWidth = 2.5;
+        ctx.shadowBlur = 18; ctx.shadowColor = 'rgba(234,88,12,0.6)';
+        ctx.stroke(); ctx.shadowBlur = 0;
+
+        // Dots + hover label
+        for (let i = 0; i < total; i++) {
+          const animR = skills[i].value * maxR * Math.min(progress * 1.4, 1);
+          const p = pt(i, animR);
+          const isHov = hovered === i;
+          ctx.beginPath(); ctx.arc(p.x, p.y, isHov ? 9 : 5, 0, Math.PI * 2);
+          ctx.fillStyle = 'rgba(234,88,12,1)';
+          ctx.shadowBlur = isHov ? 22 : 10; ctx.shadowColor = 'rgba(234,88,12,0.9)';
+          ctx.fill(); ctx.shadowBlur = 0;
+          if (isHov) {
+            ctx.fillStyle = '#fff'; ctx.font = 'bold 13px Poppins,sans-serif';
+            ctx.textAlign = 'center'; ctx.textBaseline = 'bottom';
+            ctx.fillText(Math.round(skills[i].value * 100) + '%', p.x, p.y - 12);
+          }
+        }
+
+        // Labels
+        for (let i = 0; i < total; i++) {
+          const lp = pt(i, maxR + 28);
+          ctx.font = hovered === i ? 'bold 13px Poppins,sans-serif' : '12px Poppins,sans-serif';
+          ctx.fillStyle = hovered === i ? '#ea580c' : lblC;
+          ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+          ctx.fillText(skills[i].label, lp.x, lp.y);
+        }
+      }
+
+      function animate() {
+        if (animProg < 1) {
+          animProg = Math.min(animProg + 0.025, 1);
+          draw(animProg);
+          if (animProg < 1) {
+            rafId = requestAnimationFrame(animate);
+          } else {
+            isFullyAnimated = true;
+            draw(1); // Final static draw
+          }
+        }
+      }
+
+      // Hover (only redraw if fully animated)
+      canvas.addEventListener('mousemove', e => {
+        const rect = canvas.getBoundingClientRect();
+        const mx = (e.clientX - rect.left) * (canvas.width / rect.width);
+        const my = (e.clientY - rect.top) * (canvas.height / rect.height);
+        let found = -1;
+        for (let i = 0; i < total; i++) {
+          const p = pt(i, skills[i].value * maxR);
+          if (Math.sqrt((mx - p.x) ** 2 + (my - p.y) ** 2) < 22) { found = i; break; }
+        }
+        if (found !== hovered) { hovered = found; if (isFullyAnimated) draw(1); }
+      });
+      canvas.addEventListener('mouseleave', () => {
+        hovered = -1; if (isFullyAnimated) draw(1);
+      });
+
+      // Start when visible
+      const obs = new IntersectionObserver(entries => {
+        if (entries[0].isIntersecting) {
+          animProg = 0; isFullyAnimated = false;
+          if (rafId) cancelAnimationFrame(rafId);
+          animate();
+          obs.disconnect();
+        }
+      }, { threshold: 0.3 });
+      obs.observe(canvas);
+    })();
+
+    // ═══════════════════════════════════════════════════
+    //  FIX 4: TESTIMONIAL FILTER TABS
+    // ═══════════════════════════════════════════════════
+    (function fixTestiTabs() {
+      const filters = document.querySelectorAll('.tr-filter');
+      if (!filters.length || document.querySelector('.tr-filter[data-testi-fixed]')) return;
+      filters.forEach(f => f.dataset.testiFixed = '1');
+
+      filters.forEach(btn => {
+        btn.addEventListener('click', () => {
+          filters.forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          const cat = btn.dataset.cat;
+          document.querySelectorAll('#testiGrid .tr-card').forEach(card => {
+            const show = cat === 'all' || card.dataset.category === cat;
+            card.classList.toggle('hidden', !show);
+            if (show) card.style.animation = 'none', requestAnimationFrame(() => { card.style.animation = 'cardFadeIn 0.45s ease forwards'; });
+          });
+        });
+      });
+    })();
+
+    // ═══════════════════════════════════════════════════
+    //  FIX 5: RATING BARS IN TESTIMONIALS SECTION
+    // ═══════════════════════════════════════════════════
+    (function fixRatingBars() {
+      const bars = document.querySelectorAll('.tr-bar-f');
+      if (!bars.length) return;
+      const obs = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            const w = entry.target.dataset.w || '0';
+            setTimeout(() => { entry.target.style.width = w + '%'; }, 150);
+            obs.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.3 });
+      bars.forEach(b => {
+        b.style.width = '0%';
+        b.style.transition = 'width 1s cubic-bezier(0.23,1,0.32,1)';
+        obs.observe(b);
+      });
+    })();
+
+    // ═══════════════════════════════════════════════════
+    //  FIX 6: ALL SKILL PROGRESS BARS
+    // ═══════════════════════════════════════════════════
+    (function fixAllProgressBars() {
+      function animBar(selector, attr) {
+        document.querySelectorAll(selector).forEach(el => {
+          const target = el.getAttribute(attr) || el.dataset.w || el.dataset.width || '0';
+          el.style.width = '0%';
+          el.style.transition = 'width 1.2s cubic-bezier(0.23,1,0.32,1)';
+          const obs = new IntersectionObserver(entries => {
+            if (entries[0].isIntersecting) {
+              setTimeout(() => { el.style.width = target + '%'; }, 200);
+              obs.disconnect();
+            }
+          }, { threshold: 0.2 });
+          obs.observe(el);
+        });
+      }
+      animBar('.ts-meter-fill', 'data-w');
+      animBar('.ts-prof-fill', 'data-w');
+      animBar('.lv2-fill', 'data-w');
+      animBar('.asp-bar-fill', 'data-width');
+    })();
+
+    // ═══════════════════════════════════════════════════
+    //  FIX 7: ANIMATED COUNTERS (prof pct)
+    // ═══════════════════════════════════════════════════
+    (function fixProfCounters() {
+      const items = document.querySelectorAll('.ts-prof-item:not([data-prof-fixed])');
+      items.forEach(item => {
+        item.dataset.profFixed = '1';
+        const fill = item.querySelector('.ts-prof-fill');
+        const pct = item.querySelector('.ts-prof-pct');
+        const w = parseInt(fill?.dataset.w || '0');
+        const obs = new IntersectionObserver(entries => {
+          if (!entries[0].isIntersecting) return;
+          if (fill) { fill.style.transition = 'width 1.2s cubic-bezier(0.23,1,0.32,1)'; setTimeout(() => fill.style.width = w + '%', 200); }
+          if (pct) {
+            let cur = 0;
+            const step = () => {
+              cur += 2; if (cur > w) cur = w;
+              pct.textContent = cur + '%';
+              pct.dataset.target = w; // Fix display from "0%"
+              if (cur < w) requestAnimationFrame(step);
+            };
+            setTimeout(step, 300);
+          }
+          obs.disconnect();
+        }, { threshold: 0.3 });
+        obs.observe(item);
+      });
+    })();
+
+    // ═══════════════════════════════════════════════════
+    //  FIX 8: HIRE ME MODAL
+    // ═══════════════════════════════════════════════════
+    (function fixHireModal() {
+      const modal = document.getElementById('hireMeModal');
+      const openBtn = document.getElementById('openHireModal');
+      const closeBtn = document.getElementById('closeHireModal');
+      const backdrop = modal?.querySelector('.hm-backdrop');
+      const toast = document.getElementById('hmCopyToast');
+      if (!modal || !openBtn || modal.dataset.hmFixed) return;
+      modal.dataset.hmFixed = '1';
+
+      const open = () => { modal.classList.add('open'); document.body.style.overflow = 'hidden'; };
+      const close = () => { modal.classList.remove('open'); document.body.style.overflow = ''; };
+
+      openBtn.addEventListener('click', open);
+      closeBtn?.addEventListener('click', close);
+      backdrop?.addEventListener('click', close);
+      document.addEventListener('keydown', e => { if (e.key === 'Escape' && modal.classList.contains('open')) close(); });
+      document.getElementById('hm-go-contact')?.addEventListener('click', close);
+
+      // Copy email
+      modal.querySelectorAll('.hm-copy-email').forEach(btn => {
+        btn.addEventListener('click', async () => {
+          try { await navigator.clipboard.writeText(btn.dataset.email || 'jvrocta@gmail.com'); }
+          catch {
+            const ta = document.createElement('textarea');
+            ta.value = btn.dataset.email || 'jvrocta@gmail.com';
+            ta.style = 'position:fixed;opacity:0';
+            document.body.appendChild(ta); ta.select();
+            document.execCommand('copy'); ta.remove();
+          }
+          const actionEl = btn.querySelector('.hm-cb-action');
+          if (actionEl) {
+            actionEl.innerHTML = '<i class="bx bx-check"></i><span>Copied!</span>';
+            actionEl.style.color = '#4ade80';
+            setTimeout(() => { actionEl.innerHTML = '<i class="bx bx-copy"></i><span>Copy</span>'; actionEl.style.color = ''; }, 2200);
+          }
+          if (toast) { toast.classList.add('show'); setTimeout(() => toast.classList.remove('show'), 2500); }
+        });
+      });
+    })();
+
+    // ═══════════════════════════════════════════════════
+    //  FIX 9: MAP CLOCKS (HUD + Badge)
+    // ═══════════════════════════════════════════════════
+    (function fixMapClocks() {
+      function updateMapTime() {
+        const now = new Date();
+        const pht = new Date(now.toLocaleString('en-US', { timeZone: 'Asia/Manila' }));
+        const h = String(pht.getHours()).padStart(2, '0');
+        const m = String(pht.getMinutes()).padStart(2, '0');
+        const s = String(pht.getSeconds()).padStart(2, '0');
+        const hudClock = document.getElementById('advHudClock');
+        const mapClock = document.getElementById('advMapClock');
+        if (hudClock) hudClock.textContent = `${h}:${m}:${s}`;
+        if (mapClock) mapClock.textContent = `${h}:${m} PHT`;
+      }
+      updateMapTime();
+      setInterval(updateMapTime, 1000);
+
+      // Map style switcher
+      const iframe = document.getElementById('advMapIframe');
+      const btnSt = document.getElementById('advMapStreet');
+      const btnSat = document.getElementById('advMapSat');
+      const STREET = "https://www.google.com/maps/embed?pb=!1m13!1m8!1m3!1d591.5354937899773!2d122.4751619!3d14.2895336!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zMTTCsDE3JzIzLjEiTiAxMjLCsDI4JzMxLjkiRQ!5e0!3m2!1sen!2sph!4v1773758842321!5m2!1sen!2sph";
+      const SAT = "https://www.google.com/maps/embed?pb=!1m13!1m8!1m3!1d591.5354937899773!2d122.4751619!3d14.2895336!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zMTTCsDE3JzIzLjEiTiAxMjLCsDI4JzMxLjkiRQ!5e1!3m2!1sen!2sph!4v1773758842321!5m2!1sen!2sph";
+
+      if (btnSt && iframe && !btnSt.dataset.mapFixed) {
+        btnSt.dataset.mapFixed = '1';
+        btnSt.addEventListener('click', () => { iframe.src = STREET; iframe.style.filter = 'saturate(0.75) contrast(1.1) brightness(0.9)'; btnSt.classList.add('adv-ctrl-active'); btnSat?.classList.remove('adv-ctrl-active'); });
+        btnSat?.addEventListener('click', () => { iframe.src = SAT; iframe.style.filter = 'saturate(0.6) contrast(1.15) brightness(0.85)'; btnSat.classList.add('adv-ctrl-active'); btnSt.classList.remove('adv-ctrl-active'); });
+      }
+    })();
+
+    // ═══════════════════════════════════════════════════
+    //  FIX 10: FOOTER SCROLL TO TOP
+    // ═══════════════════════════════════════════════════
+    (function fixFooter() {
+      const btn = document.getElementById('ftScrollTop');
+      if (btn && !btn.dataset.ftFixed) {
+        btn.dataset.ftFixed = '1';
+        btn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+      }
+      // Year
+      document.querySelectorAll('.ft-year-display').forEach(el => { el.textContent = `©${new Date().getFullYear()}`; });
+    })();
+
+    // ═══════════════════════════════════════════════════
+    //  FIX 11: GLOBAL SMOOTH SCROLL
+    // ═══════════════════════════════════════════════════
+    (function fixSmoothScroll() {
+      if (document.documentElement.dataset.smoothFixed) return;
+      document.documentElement.dataset.smoothFixed = '1';
+      document.addEventListener('click', e => {
+        const link = e.target.closest('a[href^="#"]');
+        if (!link) return;
+        const href = link.getAttribute('href');
+        if (!href || href === '#') return;
+        const target = document.querySelector(href);
+        if (!target) return;
+        e.preventDefault();
+        const offset = (document.querySelector('.header')?.offsetHeight || 80) + 20;
+        window.scrollTo({ top: Math.max(0, target.getBoundingClientRect().top + window.scrollY - offset), behavior: 'smooth' });
+        // Close mobile menu if open
+        document.querySelector('.navbar')?.classList.remove('active');
+        document.getElementById('menu-icon')?.classList.remove('bx-x');
+      }, true);
+    })();
+
+    // ═══════════════════════════════════════════════════
+    //  FIX 12: ORBIT ICONS VISIBILITY
+    // ═══════════════════════════════════════════════════
+    (function fixOrbitIcons() {
+      const orbitStyle = document.createElement('style');
+      orbitStyle.textContent = `
+        .orbit-icons i { opacity: 1 !important; visibility: visible !important; }
+        .orbit-container { position: relative; display: inline-block; }
+      `;
+      document.head.appendChild(orbitStyle);
+    })();
+
+    // ═══════════════════════════════════════════════════
+    //  FIX 13: ENSURE ICONS LOAD (fallback re-trigger)
+    // ═══════════════════════════════════════════════════
+    (function ensureIcons() {
+      // If boxicons not loaded, reload
+      const testIcon = document.querySelector('.bx');
+      if (!testIcon) return;
+      const computed = window.getComputedStyle(testIcon, ':before').content;
+      if (!computed || computed === 'none' || computed === '') {
+        console.warn('Boxicons may not have loaded, retrying...');
+        const link = document.createElement('link');
+        link.rel = 'stylesheet';
+        link.href = 'https://unpkg.com/boxicons@latest/css/boxicons.min.css';
+        document.head.appendChild(link);
+      }
+    })();
+
+    console.log('🔥 JVOR DEV — Master Fix v4.0 applied! All systems working!');
+
+  }); // end ready()
+
+})();
+/* ═══════════════════════════════════════════════════════════════════
+   JVOR DEV — FINAL MASTER FIX v5.0
+   Orbit Counter-Rotate • Testimonials • Contact EmailJS • Loading
+═══════════════════════════════════════════════════════════════════ */
+
+(function jvorFinalFix() {
+  'use strict';
+
+  function ready(fn) {
+    if (document.readyState !== 'loading') fn();
+    else document.addEventListener('DOMContentLoaded', fn);
+  }
+
+  // ── Universal toast ──
+  function showToast(msg, type, dur) {
+    type = type || 'success'; dur = dur || 4000;
+    let t = document.getElementById('jvor-toast-v5');
+    if (!t) {
+      t = document.createElement('div');
+      t.id = 'jvor-toast-v5';
+      t.style.cssText = [
+        'position:fixed', 'bottom:32px', 'left:50%',
+        'transform:translateX(-50%) translateY(100px)',
+        'padding:14px 28px', 'border-radius:50px', 'color:#fff',
+        'font-size:1.5rem', 'font-weight:700', 'z-index:999998',
+        'display:flex', 'align-items:center', 'gap:10px',
+        'transition:transform 0.5s cubic-bezier(0.34,1.56,.64,1),opacity 0.4s ease',
+        'opacity:0', 'font-family:Poppins,sans-serif',
+        'box-shadow:0 8px 40px rgba(0,0,0,0.5)',
+        'max-width:90vw', 'pointer-events:none'
+      ].join(';');
+      document.body.appendChild(t);
+    }
+    const bg = { success: 'linear-gradient(135deg,#22c55e,#16a34a)', error: 'linear-gradient(135deg,#ef4444,#dc2626)', info: 'linear-gradient(135deg,#ea580c,#c2410c)' };
+    const ic = { success: 'bx-check-circle', error: 'bx-error-circle', info: 'bx-info-circle' };
+    t.style.background = bg[type] || bg.info;
+    t.innerHTML = `<i class='bx ${ic[type] || ic.info}' style="font-size:2rem"></i>${msg}`;
+    requestAnimationFrame(() => { t.style.transform = 'translateX(-50%) translateY(0)'; t.style.opacity = '1'; });
+    clearTimeout(t._tmr);
+    t._tmr = setTimeout(() => { t.style.transform = 'translateX(-50%) translateY(100px)'; t.style.opacity = '0'; }, dur);
+  }
+
+  ready(function () {
+
+    // ═══════════════════════════════════════════════════
+    //  1. ORBIT ICONS — JS-driven counter-rotate
+    //     Keeps icons upright while the ring spins
+    // ═══════════════════════════════════════════════════
+    (function initOrbit() {
+      const ring = document.getElementById('orbitRing') || document.querySelector('.orbit-icons');
+      if (!ring || ring.dataset.orbitInit) return;
+      ring.dataset.orbitInit = '1';
+
+      const icons = ring.querySelectorAll('i');
+      const n = icons.length;
+      const RADIUS = 210; // px from center — tuned to container size
+      const SPEED = 0.4; // degrees per frame (slower = smoother)
+      let angle = 0;
+
+      // Position icons perfectly on the circle
+      function positionIcons(rot) {
+        icons.forEach((icon, i) => {
+          const deg = (360 / n) * i + rot;
+          const rad = (deg * Math.PI) / 180;
+          const cx = Math.cos(rad) * RADIUS;
+          const cy = Math.sin(rad) * RADIUS;
+          icon.style.left = `calc(50% + ${cx}px - 27px)`;
+          icon.style.top = `calc(50% + ${cy}px - 27px)`;
+          icon.style.transform = `rotate(${-rot}deg)`; // counter-rotate = stays upright
+          icon.style.position = 'absolute';
+          icon.style.animation = 'none'; // override CSS animation for position
+        });
+      }
+
+      function tick() {
+        angle = (angle + SPEED) % 360;
+        positionIcons(angle);
+        requestAnimationFrame(tick);
+      }
+
+      // Initial position then start loop
+      positionIcons(0);
+      requestAnimationFrame(tick);
+
+      // Hover: pause ring via CSS var trick
+      ring.addEventListener('mouseenter', () => { ring.style.animationPlayState = 'paused'; });
+      ring.addEventListener('mouseleave', () => { ring.style.animationPlayState = 'running'; });
+    })();
+
+    // ═══════════════════════════════════════════════════
+    //  2. TESTIMONIAL REVIEW FORM — Firebase + Live card
+    // ═══════════════════════════════════════════════════
+    (async function initReviewForm() {
+      const form = document.getElementById('reviewForm');
+      if (!form || form.dataset.v5Fixed) return;
+      form.dataset.v5Fixed = '1';
+
+      // Avatar generator
+      function genAvatar(name) {
+        const initials = (name || 'U').trim().split(' ').map(w => w[0]).slice(0, 2).join('').toUpperCase();
+        let hash = 0;
+        for (let c of (name || 'U')) hash = c.charCodeAt(0) + ((hash << 5) - hash);
+        const hue = Math.abs(hash) % 360;
+        const cv = document.createElement('canvas');
+        cv.width = cv.height = 80;
+        const ctx = cv.getContext('2d');
+        ctx.fillStyle = `hsl(${hue},55%,38%)`;
+        ctx.beginPath(); ctx.arc(40, 40, 40, 0, Math.PI * 2); ctx.fill();
+        ctx.strokeStyle = `hsl(${hue},55%,62%)`; ctx.lineWidth = 2.5;
+        ctx.beginPath(); ctx.arc(40, 40, 36, 0, Math.PI * 2); ctx.stroke();
+        ctx.fillStyle = '#fff';
+        ctx.font = `bold ${initials.length > 1 ? 26 : 30}px Arial,sans-serif`;
+        ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+        ctx.fillText(initials, 40, 41);
+        return cv.toDataURL();
+      }
+
+      // Star picker
+      const starBtns = form.querySelectorAll('.tr-star-btn');
+      const ratingInp = document.getElementById('selectedRating');
+      const starHint = document.getElementById('trStarHint');
+      const hintMap = { 1: 'Poor', 2: 'Fair', 3: 'Good', 4: 'Very Good!', 5: 'Excellent ⭐' };
+      let picked = 0;
+
+      starBtns.forEach((btn, i) => {
+        btn.addEventListener('mouseenter', () => {
+          starBtns.forEach((b, j) => b.classList.toggle('lit', j <= i));
+          if (starHint) starHint.textContent = hintMap[i + 1] || '';
+        });
+        btn.addEventListener('mouseleave', () => {
+          starBtns.forEach((b, j) => b.classList.toggle('lit', j < picked));
+          if (starHint) starHint.textContent = picked ? hintMap[picked] : 'Click to rate';
+        });
+        btn.addEventListener('click', () => {
+          picked = i + 1;
+          if (ratingInp) ratingInp.value = picked;
+          starBtns.forEach((b, j) => b.classList.toggle('lit', j < picked));
+          if (starHint) starHint.textContent = hintMap[picked];
+        });
+      });
+
+      // Firebase
+      let db = null;
+      try {
+        const { initializeApp, getApps } = await import('https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js');
+        const { getFirestore } = await import('https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js');
+        const cfg = {
+          apiKey: "AIzaSyC6CN0FDn2lhS6QCflxFWpFFw7AS24WWWs",
+          authDomain: "portpolio-jvor.firebaseapp.com",
+          projectId: "portpolio-jvor",
+          storageBucket: "portpolio-jvor.firebasestorage.app",
+          messagingSenderId: "764831263383",
+          appId: "1:764831263383:web:e9103eb423db244f5297d2"
+        };
+        const app = getApps().length ? getApps()[0] : initializeApp(cfg);
+        db = getFirestore(app);
+        console.log('✅ Firestore ready');
+
+        // Load existing reviews
+        const { collection, getDocs, query, orderBy } = await import('https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js');
+        const snap = await getDocs(query(collection(db, 'reviews'), orderBy('timestamp', 'asc')));
+        const grid = document.getElementById('testiGrid');
+        if (grid && snap.size > 0) {
+          snap.forEach(doc => {
+            const r = doc.data();
+            injectCard(r.name || 'Anonymous', r.company || 'Client', r.text || '', r.rating || 5, r.category || 'other', r.date || '', r.avatar ? r.avatar : genAvatar(r.name || 'U'));
+          });
+        }
+      } catch (e) { console.warn('Firestore:', e.message); }
+
+      function injectCard(name, company, text, rating, category, date, avatar) {
+        const grid = document.getElementById('testiGrid');
+        if (!grid) return;
+        const stars = Array.from({ length: 5 }, (_, i) => `<i class='bx bxs-star' style="color:${i < rating ? '#ea580c' : 'rgba(255,255,255,0.12)'}"></i>`).join('');
+        grid.insertAdjacentHTML('beforeend', `
+          <div class="tr-card" data-category="${category}" style="animation:cardFadeIn .6s ease forwards">
+            <div class="tr-card-header">
+              <div class="tr-card-avatar-wrap">
+                <img src="${avatar}" alt="${name}" class="tr-card-avatar">
+                <span class="tr-card-verified"><i class='bx bxs-badge-check'></i></span>
+              </div>
+              <div class="tr-card-author-info">
+                <h4>${name}</h4>
+                <span class="tr-card-position">${company}</span>
+                <span class="tr-card-company">✅ Verified</span>
+              </div>
+              <div class="tr-card-stars">${stars}</div>
+            </div>
+            <div class="tr-card-body">
+              <span class="tr-card-open-quote">❝</span>
+              <p>"${text}"</p>
+            </div>
+            <div class="tr-card-footer">
+              <span class="tr-card-type"><i class='bx bx-briefcase'></i> ${category}</span>
+              <span class="tr-card-when">${date}</span>
+            </div>
+          </div>`);
+      }
+
+      // Submit
+      form.addEventListener('submit', async function (e) {
+        e.preventDefault(); e.stopImmediatePropagation();
+        const name = (document.getElementById('reviewerName')?.value || '').trim();
+        const email = (document.getElementById('reviewerEmail')?.value || '').trim();
+        const company = (document.getElementById('reviewerCompany')?.value || '').trim();
+        const text = (document.getElementById('reviewText')?.value || '').trim();
+        const rating = parseInt(document.getElementById('selectedRating')?.value || '0');
+        const category = document.getElementById('reviewerCategory')?.value || 'other';
+
+        if (!name) { showToast('Ilagay ang iyong pangalan! 😊', 'error'); return; }
+        if (!email) { showToast('Ilagay ang iyong email! 📧', 'error'); return; }
+        if (!text) { showToast('Isulat ang iyong review! 📝', 'error'); return; }
+        if (rating < 1) { showToast('Pumili ng star rating! ⭐', 'error'); return; }
+
+        const btn = document.getElementById('trSubmitBtn');
+        const bc = btn?.querySelector('.tr-submit-content');
+        const bl = btn?.querySelector('.tr-submit-loading');
+        if (btn) btn.disabled = true;
+        if (bc) bc.style.display = 'none';
+        if (bl) bl.style.display = 'flex';
+
+        const now = new Date();
+        const mo = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+        const date = `${mo[now.getMonth()]} ${now.getFullYear()}`;
+        const avatar = genAvatar(name);
+
+        if (db) {
+          try {
+            const { collection, addDoc, serverTimestamp } = await import('https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js');
+            await addDoc(collection(db, 'reviews'), { name, email, company, text, rating, category, date, avatar, timestamp: serverTimestamp() });
+          } catch (err) { console.warn('Save error:', err.message); }
+        }
+
+        injectCard(name, company, text, rating, category, date, avatar);
+        // Re-apply active filter
+        const activeFilter = document.querySelector('.tr-filter.active');
+        if (activeFilter && activeFilter.dataset.cat !== 'all') {
+          document.querySelectorAll('#testiGrid .tr-card').forEach(c => {
+            c.classList.toggle('hidden', c.dataset.category !== activeFilter.dataset.cat);
+          });
+        }
+        // Scroll to new card
+        setTimeout(() => document.getElementById('testiGrid')?.lastElementChild?.scrollIntoView({ behavior: 'smooth', block: 'nearest' }), 400);
+
+        showToast(`Salamat, ${name}! Live na ang iyong review! 🎉`, 'success');
+        form.reset(); picked = 0;
+        if (ratingInp) ratingInp.value = '0';
+        starBtns.forEach(b => b.classList.remove('lit'));
+        if (starHint) starHint.textContent = 'Click to rate your experience';
+        if (btn) btn.disabled = false;
+        if (bc) bc.style.display = 'flex';
+        if (bl) bl.style.display = 'none';
+      });
+    })();
+
+    // ═══════════════════════════════════════════════════
+    //  3. TESTIMONIAL FILTER TABS
+    // ═══════════════════════════════════════════════════
+    (function initTestiFilter() {
+      const filters = document.querySelectorAll('.tr-filter');
+      if (!filters.length || document.querySelector('.tr-filter[data-v5]')) return;
+      filters.forEach(f => f.dataset.v5 = '1');
+      filters.forEach(btn => {
+        btn.addEventListener('click', () => {
+          filters.forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          const cat = btn.dataset.cat;
+          document.querySelectorAll('#testiGrid .tr-card').forEach(card => {
+            const show = cat === 'all' || card.dataset.category === cat;
+            card.classList.toggle('hidden', !show);
+            if (show) { card.style.animation = 'none'; requestAnimationFrame(() => { card.style.animation = 'cardFadeIn 0.45s ease forwards'; }); }
+          });
+        });
+      });
+    })();
+
+    // ═══════════════════════════════════════════════════
+    //  4. CONTACT FORM — EMAILJS (single clean handler)
+    // ═══════════════════════════════════════════════════
+    (function initContactForm() {
+      const form = document.getElementById('contactForm');
+      const submitBtn = document.getElementById('submitBtn');
+      if (!form || form.dataset.v5Fixed) return;
+      form.dataset.v5Fixed = '1';
+
+      const EJSPK = '_gHT9V4PLtdDkYzou';
+      const SVCID = 'service_mpv0lec';
+      const TPLID = 'template_rpzjy36';
+
+      function isEmail(v) { return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v); }
+
+      function setField(el, valid) {
+        const g = el?.closest('.ct-form-group');
+        if (!g) return;
+        g.classList.toggle('has-error', !valid);
+        g.classList.toggle('is-valid', valid);
+        g.querySelector('.ct-field-error')?.classList.toggle('visible', !valid);
+        el.style.borderColor = valid ? 'rgba(34,197,94,0.4)' : 'rgba(239,68,68,0.5)';
+      }
+
+      function validate() {
+        const n = document.getElementById('cf-name');
+        const em = document.getElementById('cf-email');
+        const s = document.getElementById('cf-subject');
+        const m = document.getElementById('cf-message');
+        let ok = true;
+        if (!n?.value.trim()) { setField(n, false); ok = false; } else setField(n, true);
+        if (!isEmail(em?.value || '')) { setField(em, false); ok = false; } else setField(em, true);
+        if (!s?.value.trim()) { setField(s, false); ok = false; } else setField(s, true);
+        if (!m?.value.trim()) { setField(m, false); ok = false; } else setField(m, true);
+        return ok;
+      }
+
+      // Live validation
+      ['cf-name', 'cf-email', 'cf-subject', 'cf-message'].forEach(id => {
+        const el = document.getElementById(id);
+        if (!el) return;
+        el.addEventListener('input', () => {
+          const valid = id === 'cf-email' ? isEmail(el.value) : !!el.value.trim();
+          setField(el, valid);
+        });
+      });
+
+      // Char counter
+      const msgEl = document.getElementById('cf-message');
+      const ccEl = document.getElementById('ctCharCount');
+      msgEl?.addEventListener('input', () => {
+        if (ccEl) { ccEl.textContent = msgEl.value.length; ccEl.style.color = msgEl.value.length > 900 ? '#ef4444' : ''; }
+        if (msgEl.value.length > 1000) msgEl.value = msgEl.value.slice(0, 1000);
+      });
+
+      // Quick select
+      document.querySelectorAll('.ct-qs-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          document.querySelectorAll('.ct-qs-btn').forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          const s = document.getElementById('cf-subject');
+          if (s) { s.value = btn.dataset.subject; setField(s, true); s.focus(); }
+        });
+      });
+
+      // Copy email
+      document.querySelectorAll('.ct-copy-btn').forEach(btn => {
+        btn.addEventListener('click', async () => {
+          try { await navigator.clipboard.writeText(btn.dataset.copy || 'jvrocta@gmail.com'); }
+          catch { const ta = document.createElement('textarea'); ta.value = btn.dataset.copy || ''; ta.style = 'position:fixed;opacity:0'; document.body.appendChild(ta); ta.select(); document.execCommand('copy'); ta.remove(); }
+          const icon = btn.querySelector('i'); const orig = icon?.className;
+          if (icon) icon.className = 'bx bx-check';
+          btn.title = 'Copied!';
+          setTimeout(() => { if (icon && orig) icon.className = orig; btn.title = 'Copy email'; }, 2000);
+          showToast('Email copied! 📋', 'success', 2000);
+        });
+      });
+
+      // Toast system
+      function showCtToast(ok) {
+        const id = ok ? 'ct-success-toast' : 'ct-error-toast';
+        const t = document.getElementById(id);
+        if (!t) return;
+        t.classList.add('show');
+        setTimeout(() => t.classList.remove('show'), 5000);
+      }
+      document.getElementById('ctToastClose')?.addEventListener('click', () => document.getElementById('ct-success-toast')?.classList.remove('show'));
+      document.getElementById('ctErrToastClose')?.addEventListener('click', () => document.getElementById('ct-error-toast')?.classList.remove('show'));
+
+      // Button state
+      function setBtn(state) {
+        const d = submitBtn?.querySelector('.ct-submit-default');
+        const s = submitBtn?.querySelector('.ct-submit-sending');
+        const dn = submitBtn?.querySelector('.ct-submit-done');
+        if (!d) return;
+        d.style.display = state === 'default' ? 'flex' : 'none';
+        if (s) s.style.display = state === 'sending' ? 'flex' : 'none';
+        if (dn) dn.style.display = state === 'done' ? 'flex' : 'none';
+      }
+
+      // Load EmailJS
+      if (!window.emailjsLoaded) {
+        window.emailjsLoaded = true;
+        const sc = document.createElement('script');
+        sc.src = 'https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js';
+        sc.onload = () => { window.emailjs?.init(EJSPK); attachSubmit(); };
+        sc.onerror = () => console.error('EmailJS SDK failed');
+        document.head.appendChild(sc);
+      } else { attachSubmit(); }
+
+      function attachSubmit() {
+        form.addEventListener('submit', async function (e) {
+          e.preventDefault(); e.stopImmediatePropagation();
+          if (form.querySelector('[name="ct_honeypot"]')?.value) return;
+          if (!validate()) { showToast('Kumpletuhin ang form! 📝', 'error'); return; }
+          setBtn('sending'); if (submitBtn) submitBtn.disabled = true;
+          try {
+            await window.emailjs.sendForm(SVCID, TPLID, form);
+            showCtToast(true);
+            showToast('Message sent! 🎉 Mag-rerespond agad ako!', 'success', 6000);
+            form.reset();
+            if (ccEl) ccEl.textContent = '0';
+            document.querySelectorAll('.ct-qs-btn').forEach(b => b.classList.remove('active'));
+            ['cf-name', 'cf-email', 'cf-subject', 'cf-message'].forEach(id => {
+              document.getElementById(id)?.closest('.ct-form-group')?.classList.remove('is-valid', 'has-error');
+            });
+            setBtn('done'); setTimeout(() => setBtn('default'), 4000);
+          } catch (err) {
+            console.error('EmailJS error:', err);
+            showCtToast(false);
+            showToast('May error. Subukan ulit! 😢', 'error');
+            setBtn('default');
+          } finally { if (submitBtn) submitBtn.disabled = false; }
+        });
+      }
+    })();
+
+    // ═══════════════════════════════════════════════════
+    //  5. RATING BARS + ALL SKILL BARS ON SCROLL
+    // ═══════════════════════════════════════════════════
+    (function initAllBars() {
+      function animateBar(el, target) {
+        el.style.width = '0%';
+        el.style.transition = 'width 1.3s cubic-bezier(0.23,1,0.32,1)';
+        const obs = new IntersectionObserver(entries => {
+          if (entries[0].isIntersecting) { setTimeout(() => { el.style.width = target + '%'; }, 150); obs.disconnect(); }
+        }, { threshold: 0.2 });
+        obs.observe(el);
+      }
+      document.querySelectorAll('.tr-bar-f[data-w]').forEach(el => animateBar(el, el.dataset.w));
+      document.querySelectorAll('.ts-meter-fill[data-w]').forEach(el => animateBar(el, el.dataset.w));
+      document.querySelectorAll('.ts-prof-fill[data-w]').forEach(el => animateBar(el, el.dataset.w));
+      document.querySelectorAll('.lv2-fill[data-w]').forEach(el => animateBar(el, el.dataset.w));
+      document.querySelectorAll('.asp-bar-fill[data-width]').forEach(el => animateBar(el, el.dataset.width));
+    })();
+
+    // ═══════════════════════════════════════════════════
+    //  6. PHT LIVE CLOCK (Contact + Map)
+    // ═══════════════════════════════════════════════════
+    (function initClocks() {
+      function tick() {
+        const now = new Date();
+        const pht = new Date(now.toLocaleString('en-US', { timeZone: 'Asia/Manila' }));
+        const hh = String(pht.getHours()).padStart(2, '0');
+        const mm = String(pht.getMinutes()).padStart(2, '0');
+        const ss = String(pht.getSeconds()).padStart(2, '0');
+        const el = document.getElementById('ctClockText');
+        const hudEl = document.getElementById('advHudClock');
+        const mapEl = document.getElementById('advMapClock');
+        if (el) el.textContent = `${hh}:${mm}:${ss}`;
+        if (hudEl) hudEl.textContent = `${hh}:${mm}:${ss}`;
+        if (mapEl) mapEl.textContent = `${hh}:${mm} PHT`;
+      }
+      tick(); setInterval(tick, 1000);
+    })();
+
+    // ═══════════════════════════════════════════════════
+    //  7. GLOBAL SMOOTH SCROLL
+    // ═══════════════════════════════════════════════════
+    if (!document.documentElement.dataset.v5Scroll) {
+      document.documentElement.dataset.v5Scroll = '1';
+      document.addEventListener('click', e => {
+        const a = e.target.closest('a[href^="#"]');
+        if (!a) return;
+        const href = a.getAttribute('href');
+        if (!href || href === '#') return;
+        const target = document.querySelector(href);
+        if (!target) return;
+        e.preventDefault();
+        const offset = (document.querySelector('.header')?.offsetHeight || 80) + 20;
+        window.scrollTo({ top: Math.max(0, target.getBoundingClientRect().top + window.scrollY - offset), behavior: 'smooth' });
+        document.querySelector('.navbar')?.classList.remove('active');
+        document.getElementById('menu-icon')?.classList.remove('bx-x');
+      }, true);
+    }
+
+    console.log('🚀 JVOR DEV v5.0 — All systems GO!');
+  }); // end ready
 
 })();
